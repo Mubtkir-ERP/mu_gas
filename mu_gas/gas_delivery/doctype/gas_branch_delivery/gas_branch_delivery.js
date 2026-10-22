@@ -1,7 +1,7 @@
 frappe.ui.form.on("Gas Branch Delivery", {
 	refresh(frm) {
 		if (frm.doc.status === "Pending OTP" && !frm.is_new()) {
-			frm.add_custom_button(__("إرسال كود التحقق للفرع 📲"), () => {
+			frm.add_custom_button(__("Send Branch OTP 📲"), () => {
 				frappe.call({
 					method: "mu_gas.gas_delivery.doctype.gas_branch_delivery.gas_branch_delivery.send_delivery_otp",
 					args: { delivery_name: frm.doc.name },
@@ -13,13 +13,13 @@ frappe.ui.form.on("Gas Branch Delivery", {
 				});
 			}).addClass("btn-primary");
 
-			frm.add_custom_button(__("إدخال كود التحقق وتأكيد التسليم ✔️"), () => {
+			frm.add_custom_button(__("Verify OTP & Confirm Delivery ✔️"), () => {
 				frappe.prompt(
 					[
 						{
 							fieldname: "otp_code",
 							fieldtype: "Data",
-							label: __("كود التحقق المستلم من الفرع"),
+							label: __("Branch OTP Code"),
 							reqd: 1
 						}
 					],
@@ -38,8 +38,8 @@ frappe.ui.form.on("Gas Branch Delivery", {
 							}
 						});
 					},
-					__("التحقق من استلام الفرع"),
-					__("تأكيد التسليم وإنشاء سند الإخراج")
+					__("Verify Branch Receipt"),
+					__("Confirm Delivery & Create Delivery Note")
 				);
 			}).addClass("btn-success");
 		}

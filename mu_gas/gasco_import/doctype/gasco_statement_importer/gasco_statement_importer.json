@@ -19,16 +19,16 @@
  ],
  "fields": [
   {
-   "default": "استيراد كشف مسحوبات غازكو",
+   "default": "GASCO Statement Import",
    "fieldname": "title",
    "fieldtype": "Data",
-   "label": "عنوان العملية",
+   "label": "Statement Title",
    "reqd": 1
   },
   {
    "fieldname": "supplier",
    "fieldtype": "Link",
-   "label": "المورد (شركة غازكو)",
+   "label": "Supplier (GASCO)",
    "options": "Supplier",
    "reqd": 1
   },
@@ -36,7 +36,7 @@
    "default": "Mubtkir",
    "fieldname": "company",
    "fieldtype": "Link",
-   "label": "الشركة",
+   "label": "Company",
    "options": "Company",
    "reqd": 1
   },
@@ -47,52 +47,52 @@
   {
    "fieldname": "item_code",
    "fieldtype": "Link",
-   "label": "صنف الغاز (LPG Bulk)",
+   "label": "Gas Item (LPG Bulk)",
    "options": "Item",
    "reqd": 1
   },
   {
    "fieldname": "warehouse",
    "fieldtype": "Link",
-   "label": "مستودع استلام الغاز",
+   "label": "Receiving Warehouse",
    "options": "Warehouse",
    "reqd": 1
   },
   {
    "fieldname": "payment_account",
    "fieldtype": "Link",
-   "label": "حساب السداد / البنك",
+   "label": "Payment Account (Bank / Cash)",
    "options": "Account",
    "reqd": 1
   },
   {
    "fieldname": "section_break_file",
    "fieldtype": "Section Break",
-   "label": "ملف كشف الإكسل"
+   "label": "Excel Statement File"
   },
   {
    "fieldname": "excel_file",
    "fieldtype": "Attach",
-   "label": "ملف كشف غازكو (Excel .xlsx / .xls)",
+   "label": "Excel File",
    "reqd": 1
   },
   {
-   "default": "مسودة",
+   "default": "Draft",
    "fieldname": "status",
    "fieldtype": "Select",
-   "label": "الحالة",
-   "options": "مسودة\nتم الاستيراد والتحويل\nخطأ في المعالجة",
+   "label": "Status",
+   "options": "Draft\nPreviewed\nProcessed\nFailed",
    "read_only": 1
   },
   {
    "fieldname": "section_break_preview",
    "fieldtype": "Section Break",
-   "label": "معاينة ومطابقة العمليات"
+   "label": "Preview Statement Data"
   },
   {
    "fieldname": "preview_html",
    "fieldtype": "HTML",
-   "label": "جدول المعاينة"
+   "label": "Preview Data"
   }
  ],
  "index_web_pages_for_search": 1,

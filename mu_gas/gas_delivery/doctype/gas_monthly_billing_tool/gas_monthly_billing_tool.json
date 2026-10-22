@@ -16,7 +16,7 @@
   {
    "fieldname": "customer",
    "fieldtype": "Link",
-   "label": "العميل",
+   "label": "Customer",
    "options": "Customer",
    "reqd": 1
   },
@@ -24,15 +24,15 @@
    "default": "Mubtkir",
    "fieldname": "company",
    "fieldtype": "Link",
-   "label": "الشركة",
+   "label": "Company",
    "options": "Company"
   },
   {
-   "default": "فاتورة مجمعة لكل فرع على حدة",
+   "default": "Consolidated Invoice Per Branch",
    "fieldname": "billing_mode",
    "fieldtype": "Select",
-   "label": "طريقة إصدار الفواتير",
-   "options": "فاتورة مجمعة لكل فرع على حدة\nفاتورة مجمعة موحدة تشمل جميع الفروع",
+   "label": "Billing Mode",
+   "options": "Consolidated Invoice Per Branch\nSingle Consolidated Invoice For All Branches",
    "reqd": 1
   },
   {
@@ -43,20 +43,20 @@
    "default": "Month Start",
    "fieldname": "from_date",
    "fieldtype": "Date",
-   "label": "من تاريخ",
+   "label": "From Date",
    "reqd": 1
   },
   {
    "default": "Today",
    "fieldname": "to_date",
    "fieldtype": "Date",
-   "label": "إلى تاريخ",
+   "label": "To Date",
    "reqd": 1
   },
   {
    "fieldname": "section_break_actions",
    "fieldtype": "Section Break",
-   "label": "إصدار الفواتير"
+   "label": "Billing Actions"
   }
  ],
  "issingle": 1,

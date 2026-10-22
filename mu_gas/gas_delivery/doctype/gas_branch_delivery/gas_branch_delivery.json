@@ -38,7 +38,7 @@
    "default": "GBD-.YYYY.-.#####",
    "fieldname": "naming_series",
    "fieldtype": "Select",
-   "label": "السلسلة",
+   "label": "Series",
    "options": "GBD-.YYYY.-.#####",
    "reqd": 1
   },
@@ -47,7 +47,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "العميل",
+   "label": "Customer",
    "options": "Customer",
    "reqd": 1
   },
@@ -55,7 +55,7 @@
    "fetch_from": "customer.customer_name",
    "fieldname": "customer_name",
    "fieldtype": "Data",
-   "label": "اسم العميل",
+   "label": "Customer Name",
    "read_only": 1
   },
   {
@@ -63,7 +63,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "فرع العميل / العنوان",
+   "label": "Customer Branch / Address",
    "options": "Address",
    "reqd": 1
   },
@@ -71,14 +71,14 @@
    "fetch_from": "branch.address_title",
    "fieldname": "branch_title",
    "fieldtype": "Data",
-   "label": "اسم الفرع",
+   "label": "Branch Title",
    "read_only": 1
   },
   {
    "fetch_from": "branch.phone",
    "fieldname": "branch_phone",
    "fieldtype": "Data",
-   "label": "هاتف الفرع (لإرسال كود التحقق)",
+   "label": "Branch Phone (For OTP)",
    "read_only": 1
   },
   {
@@ -91,14 +91,14 @@
    "fieldtype": "Date",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "تاريخ التسليم",
+   "label": "Delivery Date",
    "reqd": 1
   },
   {
    "default": "Now",
    "fieldname": "posting_time",
    "fieldtype": "Time",
-   "label": "وقت التسليم",
+   "label": "Delivery Time",
    "reqd": 1
   },
   {
@@ -106,14 +106,14 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "السائق / مندوب التوزيع",
+   "label": "Driver / Distribution Agent",
    "options": "User"
   },
   {
    "fieldname": "driver_warehouse",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "مستودع سيارة السائق",
+   "label": "Driver Van Warehouse",
    "options": "Warehouse",
    "reqd": 1
   },
@@ -123,39 +123,39 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "حالة التسليم",
+   "label": "Status",
    "options": "Pending OTP\nConfirmed\nInvoiced\nCancelled",
    "read_only": 1
   },
   {
    "fieldname": "section_break_items",
    "fieldtype": "Section Break",
-   "label": "الأصناف والأسطوانات المسلمة"
+   "label": "Delivered Items & Cylinders"
   },
   {
    "fieldname": "items",
    "fieldtype": "Table",
-   "label": "جدول الأصناف",
+   "label": "Items",
    "options": "Gas Branch Delivery Item",
    "reqd": 1
   },
   {
    "fieldname": "section_break_totals",
    "fieldtype": "Section Break",
-   "label": "الإجماليات"
+   "label": "Totals"
   },
   {
    "default": "0",
    "fieldname": "total_qty",
    "fieldtype": "Float",
-   "label": "إجمالي الكمية",
+   "label": "Total Quantity",
    "read_only": 1
   },
   {
    "default": "0",
    "fieldname": "total_amount",
    "fieldtype": "Currency",
-   "label": "إجمالي القيمة التقديرية",
+   "label": "Total Estimated Amount",
    "read_only": 1
   },
   {
@@ -166,53 +166,53 @@
    "default": "0",
    "fieldname": "total_full_delivered",
    "fieldtype": "Float",
-   "label": "إجمالي الممتلئ المُسلّم",
+   "label": "Total Full Delivered",
    "read_only": 1
   },
   {
    "default": "0",
    "fieldname": "total_empty_received",
    "fieldtype": "Float",
-   "label": "إجمالي الفارغ المُستلم",
+   "label": "Total Empty Received",
    "read_only": 1
   },
   {
    "fieldname": "section_break_otp",
    "fieldtype": "Section Break",
-   "label": "التحقق والربط بسندات ERPNext"
+   "label": "Verification & ERPNext References"
   },
   {
    "fieldname": "otp_code",
    "fieldtype": "Data",
-   "label": "كود التحقق",
+   "label": "OTP Code",
    "read_only": 1
   },
   {
    "default": "0",
    "fieldname": "otp_verified",
    "fieldtype": "Check",
-   "label": "تم التحقق من الفرع",
+   "label": "Branch Verified",
    "read_only": 1
   },
   {
    "fieldname": "delivery_note",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "سند الإخراج والتسليم (Delivery Note)",
+   "label": "Delivery Note",
    "options": "Delivery Note",
    "read_only": 1
   },
   {
    "fieldname": "sales_invoice",
    "fieldtype": "Link",
-   "label": "فاتورة المبيعات الشهرية المجمعة",
+   "label": "Monthly Consolidated Sales Invoice",
    "options": "Sales Invoice",
    "read_only": 1
   },
   {
    "fieldname": "remarks",
    "fieldtype": "Small Text",
-   "label": "ملاحظات"
+   "label": "Remarks"
   }
  ],
  "index_web_pages_for_search": 1,

@@ -1,0 +1,137 @@
+1. Field Daily Sales,1. مبيعات اليوم الميدانية
+"2. Daily Expenses (Fuel, Maintenance...)",2. مصاريف اليومية (ديزل، بنزين، صيانة...)
+Accountant User,المحاسب المعتمد
+Analyzing GASCO Excel file...,جاري تحليل ملف إكسل غازكو...
+Approval Completed,تم الاعتماد بنجاح
+Approval Date & Time,تاريخ ووقت الاعتماد
+Approve Sheet & Generate Entries ⚡,اعتماد المسير وتوليد الفواتير والقيود ⚡
+Approved & Generated,معتمد وتم توليد العمليات
+Are you sure you want to approve this sheet and generate Sales Invoices and Journal Entries?,هل أنت متأكد من اعتماد هذا المسير وتوليد فواتير المبيعات وقيود المصروفات التلقائية؟
+Are you sure you want to generate Purchase Invoices and Payments for extracted GASCO statement records?,هل أنت متأكد من توليد فواتير المشتريات وسندات السداد التلقائية لجميع مسحوبات غازكو المستخرجة؟
+Are you sure you want to generate consolidated Sales Invoices for unbilled deliveries of customer {0}?,هل أنت متأكد من توليد فواتير المبيعات المجمعة لسندات التسليم غير المفوترة للعميل {0}؟
+Auditing & Generation Log,الاعتماد وسجل العمليات المتولدة
+Bank Transfer,تحويل بنكي
+Billing Actions,إصدار الفواتير
+Billing Completed,تمت الفوترة بنجاح
+Billing Mode,طريقة إصدار الفواتير
+Branch Delivery & Logistics,تسليمات وتوزيع الفروع
+Branch OTP Code,كود التحقق المستلم من الفرع
+Branch Phone (For OTP),هاتف الفرع (لإرسال كود التحقق)
+Branch Title,اسم الفرع
+Branch Verified,تم التحقق من الفرع
+Cancelled,ملغي
+Cash,نقدي
+Cash / Custody Account,حساب الصندوق / عهدة السائق
+Confirm Delivery & Create Delivery Note,تأكيد التسليم وإنشاء سند الإخراج
+Confirmed,مؤكد وتم التسليم
+Consolidated Gas Sales Invoice for period up to {0} covering deliveries: {1},فاتورة مبيعات غاز مجمعة عن الفترة حتى {0} تشمل السندات: {1}
+Consolidated Invoice Per Branch,فاتورة مجمعة لكل فرع على حدة
+Could not extract any valid withdrawal data from this Excel file.,تعذر استخراج بيانات مسحوبات صحيحة من ملف الإكسل.
+Created {0} Purchase Invoices and {1} Payment Entries successfully!,تم بنجاح إنشاء {0} فاتورة مشتريات و {1} سند دفع!
+Credit (On Account),آجل (على الحساب)
+Credit Card / Mada,شبكة مدى
+Customer,العميل
+Customer Branch,فرع العميل
+Customer Branch / Address,فرع العميل / العنوان
+Customer Name,اسم العميل
+Daily Expenses,جدول المصاريف
+Daily Expenses from Gas Sheet {0} - Driver {1},مصاريف يومية من كشف الغاز {0} - السائق {1}
+Daily Operations & Financials,اليومية والمسير الميداني
+Daily Sales,جدول المبيعات
+Delivered Items & Cylinders,الأصناف والأسطوانات المسلمة
+Delivery Date,تاريخ التسليم
+Delivery Time,وقت التسليم
+Delivery confirmed successfully! Delivery Note {0} created.,تم تأكيد التسليم بنجاح وإنشاء إذن التسليم {0}.
+Draft,مسودة
+Driver / Distribution Agent,السائق / مندوب التوزيع
+Driver / Route Supervisor,السائق / مسؤول التوزيع
+Driver Meals & Allowances,وجبات ومخصصات سائقين
+Driver Van Warehouse,مستودع سيارة السائق
+Empty Cylinders Received,أسطوانات فارغة مُستلمة
+Excel File,ملف الإكسل
+Excel Statement File,ملف كشف الإكسل
+Expense Account,حساب المصروف
+Expense Type,نوع المصروف
+Extracted {0} transactions from GASCO statement.,تم بنجاح استخراج {0} عملية من كشف غازكو.
+Failed,فشل المعالجة
+From Date,من تاريخ
+Fuel & Diesel,ديزل وبنزين
+Full Cylinders Delivered,أسطوانات ممتلئة مُسلّمة
+GASCO Ingestion & Invoices,كشوفات ومشتريات غازكو
+GASCO Statement Import,استيراد كشف مسحوبات غازكو
+GASCO Statement Import: Ref {0} Tank {1},استيراد كشف غازكو: إشعار {0} خزان {1}
+Gas Branch Delivery,تسليم فروع الغاز بالـ OTP
+Gas Branch Delivery Item,بند تسليم فرع الغاز
+Gas Daily Sheet,المسير اليومي للمبيعات والمصاريف
+Gas Daily Sheet Expense,بند مصاريف اليومية
+Gas Daily Sheet Sale,بند مبيعات اليومية
+Gas Delivery,توزيع وتسليم الغاز
+Gas Delivery via Driver {0} - Confirmed by Branch OTP,تسليم غاز عبر السائق {0} - مؤكد برمز OTP للفرع
+Gas Item (LPG Bulk),صنف الغاز (LPG Bulk)
+Gas Monthly Billing Tool,الفوترة الشهرية المجمعة
+Gas Operations,عمليات الغاز
+Gas Operations Shortcuts,اختصارات عمليات الغاز
+Gas delivery confirmation code for {0} ({1}): {2}. Please provide this code to the driver.,كود تأكيد استلام الغاز لـ {0} ({1}): {2}. يرجى تزويد السائق بالكود لإتمام التسليم.
+Gasco Import,استيراد كشوفات غازكو
+Gasco Statement Importer,استيراد كشوفات غازكو بالإكسل
+Generate Monthly Invoices 📑,توليد فواتير المبيعات المجمعة 📑
+Generate Purchase Invoices & Payments ⚡,توليد فواتير المشتريات والسداد التلقائي ⚡
+Generated from Gas Daily Sheet: {0},تم التوليد من كشف اليومية الميدانية للغاز: {0}
+Generating GASCO purchase invoices and payments...,جاري إنشاء فواتير مشتريات غازكو وسندات الصرف...
+Generating consolidated Sales Invoices...,جاري إنشاء فواتير المبيعات المجمعة...
+Generating invoices and journal entries...,جاري إنشاء الفواتير والقيود المحاسبية...
+Generation completed successfully,اكتمل التوليد بنجاح
+Invalid OTP code. Please verify the code sent to the customer branch.,كود التحقق غير صحيح، يرجى التأكد من الكود المرسل للفرع.
+Invoiced,مفوتر
+Items,جدول الأصناف
+Monthly Consolidated Sales Invoice,فاتورة المبيعات الشهرية المجمعة
+Net Cash Collected,صافي النقدية الموردة
+No confirmed unbilled deliveries found for this customer in period ({0} to {1}).,لا توجد سندات تسليم معتمدة غير مفوترة لهذا العميل في هذه الفترة ({0} إلى {1}).
+No data found to process.,لا توجد بيانات للمعالجة.
+No phone number registered for customer branch to send OTP.,لم يتم العثور على رقم هاتف مسجل لفرع العميل لإرسال كود التحقق.
+OTP Code,كود التحقق
+Operations & Financials,إدارة العمليات والمالية
+Other Operating Expenses,نثريات تشغيلية أخرى
+"Parking, Tolls & Washing",رسوم ومواقف وغسيل
+Payment Account (Bank / Cash),حساب سداد المشتريات (البنك / الصندوق)
+Payment Method,طريقة الدفع
+Pending OTP,بانتظار كود التحقق (OTP)
+Please select customer first,يرجى اختيار العميل أولاً
+Please select customer first.,يرجى اختيار العميل أولاً.
+Please upload an Excel file first.,يرجى رفع ملف الإكسل أولاً.
+Preview Data,جدول المعاينة
+Preview Excel 📊,معاينة وتحليل الإكسل 📊
+Preview Statement Data,معاينة بيانات الكشف
+Previewed,تمت المعاينة
+Process Status,حالة المعالجة
+Processed,تمت المعالجة وتوليد الفواتير
+Receipt / Invoice Reference,رقم الفاتورة / الإيصال
+Receiving Warehouse,مستودع استلام الغاز
+Send Branch OTP 📲,إرسال كود التحقق للفرع 📲
+Series,السلسلة
+Sheet Date,تاريخ اليومية
+Sheet approved! Generated {0} Sales Invoices and Journal Entry {1}.,تم اعتماد المسير بنجاح! تم إنشاء {0} فاتورة مبيعات وقيد اليومية {1}.
+Single Consolidated Invoice For All Branches,فاتورة مجمعة موحدة تشمل جميع الفروع
+Statement Title,عنوان العملية
+Statement analyzed successfully,تم تحليل الكشف بنجاح
+Submit to Accountant 📤,إرسال للمحاسب للاعتماد 📤
+Submitted to Accountant,مرسل للمحاسب
+Successfully created {0} consolidated Sales Invoice(s): {1},تم بنجاح إنشاء {0} فاتورة مبيعات مجمعة: {1}
+Supplier (GASCO),المورد (شركة غازكو)
+This delivery has already been confirmed.,هذا التسليم تم تأكيده بالفعل.
+This sheet has already been approved and processed.,هذا المسير تم اعتماده ومعالجته بالفعل.
+To Date,إلى تاريخ
+Total Empty Received,إجمالي الفارغ المُستلم
+Total Estimated Amount,إجمالي القيمة التقديرية
+Total Expenses,إجمالي المصروفات
+Total Full Delivered,إجمالي الممتلئ المُسلّم
+Total Quantity,إجمالي الكمية
+Total Sales,إجمالي المبيعات
+Totals,الإجماليات
+Totals & Net Cash,إجماليات اليومية وصافي النقدية
+Vehicle Maintenance,صيانة وتصليح سيارة
+Vehicle Plate Number,رقم لوحة السيارة
+Verification & ERPNext References,التحقق والربط بسندات ERPNext
+Verification code sent successfully to branch phone: {0},تم إرسال كود التحقق بنجاح إلى جوال الفرع: {0}
+Verify Branch Receipt,التحقق من استلام الفرع
+Verify OTP & Confirm Delivery ✔️,إدخال كود التحقق وتأكيد التسليم ✔️

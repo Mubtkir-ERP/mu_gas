@@ -16,7 +16,7 @@ class GasMonthlyBillingTool(Document):
 def generate_monthly_invoices(customer, from_date, to_date, billing_mode, company=None):
 	"""Generates consolidated monthly Sales Invoices for unbilled Gas Deliveries."""
 	if not customer:
-		frappe.throw(_("يرجى اختيار العميل أولاً."))
+		frappe.throw(_("Please select customer first."))
 
 	deliveries = frappe.db.sql("""
 		SELECT name, branch, branch_title, delivery_note, posting_date
@@ -29,13 +29,13 @@ def generate_monthly_invoices(customer, from_date, to_date, billing_mode, compan
 	""", (customer, from_date, to_date), as_dict=True)
 
 	if not deliveries:
-		frappe.throw(_("لا توجد سندات تسليم معتمدة غير مفوترة لهذا العميل في هذه الفترة ({0} إلى {1}).").format(from_date, to_date))
+		frappe.throw(_("No confirmed unbilled deliveries found for this customer in period ({0} to {1}).").format(from_date, to_date))
 
 	company = company or frappe.defaults.get_user_default("Company") or frappe.db.get_single_value("Global Defaults", "default_company")
 
 	created_invoices = []
 
-	if "لكل فرع" in billing_mode:
+	if "Per Branch" in billing_mode or "لكل فرع" in billing_mode:
 		# Group by branch
 		branch_groups = {}
 		for d in deliveries:
@@ -52,7 +52,7 @@ def generate_monthly_invoices(customer, from_date, to_date, billing_mode, compan
 	return {
 		"success": True,
 		"invoices": created_invoices,
-		"message": _("تم بنجاح إنشاء {0} فاتورة مبيعات مجمعة: {1}").format(
+		"message": _("Successfully created {0} consolidated Sales Invoice(s): {1}").format(
 			len(created_invoices), ", ".join(created_invoices)
 		)
 	}
@@ -92,7 +92,7 @@ def _create_invoice_for_deliveries(customer, branch, delivery_list, company, pos
 			"uom": itm.uom or frappe.db.get_value("Item", itm.item_code, "stock_uom")
 		})
 
-	si.remarks = _("فاتورة مبيعات غاز مجمعة عن الفترة حتى {0} تشمل السندات: {1}").format(
+	si.remarks = _("Consolidated Gas Sales Invoice for period up to {0} covering deliveries: {1}").format(
 		posting_date, ", ".join(delivery_names[:10]) + ("..." if len(delivery_names) > 10 else "")
 	)
 

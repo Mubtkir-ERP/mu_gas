@@ -43,76 +43,75 @@ def send_delivery_otp(delivery_name):
 	"""Generates 5-digit OTP and sends it to the customer branch phone via WhatsApp/SMS."""
 	doc = frappe.get_doc("Gas Branch Delivery", delivery_name)
 	if doc.status == "Confirmed":
-		frappe.throw(_("هذا التسليم تم تأكيده بالفعل."))
+		frappe.throw(_("This delivery has already been confirmed."))
 
 	phone = doc.branch_phone or frappe.db.get_value("Address", doc.branch, "phone")
 	if not phone:
-		frappe.throw(_("لم يتم العثور على رقم هاتف مسجل لفرع العميل لإرسال كود التحقق."))
+		frappe.throw(_("No phone number registered for customer branch to send OTP."))
 
 	otp = f"{secrets.randbelow(90000) + 10000}"
 	doc.db_set("otp_code", otp)
 
 	msg = _(
-		"كود تأكيد استلام الغاز لـ {0} ({1}): {2}. يرجى تزويد السائق بالكود لإتمام التسليم."
+		"Gas delivery confirmation code for {0} ({1}): {2}. Please provide this code to the driver."
 	).format(doc.customer_name, doc.branch_title or doc.branch, otp)
 
-	# Best effort send WhatsApp
 	try:
-		from pos_next.api.whatsapp_hook import send_whatsapp
-		send_whatsapp(phone, msg)
-	except Exception:
-		# Fallback log
-		frappe.log_error(f"Failed to send OTP to {phone}: {msg}", "Gas Delivery OTP")
+		if frappe.db.exists("DocType", "WhatsApp Message"):
+			frappe.get_doc({
+				"doctype": "WhatsApp Message",
+				"to_number": phone,
+				"message": msg
+			}).insert(ignore_permissions=True)
+	except Exception as err:
+		frappe.log_error(f"Failed to send WhatsApp OTP: {err}", "Gas Delivery OTP")
 
 	return {
 		"success": True,
-		"message": _("تم إرسال كود التحقق بنجاح إلى جوال الفرع: {0}").format(phone),
-		"phone": phone
+		"message": _("Verification code sent successfully to branch phone: {0}").format(phone)
 	}
 
 
 @frappe.whitelist()
 def verify_otp_and_confirm(delivery_name, input_otp):
-	"""Verifies OTP and generates ERPNext Delivery Note deducting stock from driver warehouse."""
+	"""Verifies 5-digit OTP and generates ERPNext Delivery Note automatically."""
 	doc = frappe.get_doc("Gas Branch Delivery", delivery_name)
 	if doc.status == "Confirmed":
-		return {"success": True, "delivery_note": doc.delivery_note}
+		frappe.throw(_("This delivery has already been confirmed."))
 
-	if not doc.otp_code or str(doc.otp_code).strip() != str(input_otp).strip():
-		frappe.throw(_("كود التحقق غير صحيح، يرجى التأكد من مسؤول الفرع وإعادة المحاولة."))
+	if str(doc.otp_code).strip() != str(input_otp).strip():
+		frappe.throw(_("Invalid OTP code. Please verify the code sent to the customer branch."))
 
-	doc.otp_verified = 1
-	doc.status = "Confirmed"
-
-	# Create ERPNext Delivery Note
+	# Create Delivery Note in ERPNext
 	dn = frappe.new_doc("Delivery Note")
 	dn.customer = doc.customer
 	dn.customer_address = doc.branch
+	dn.shipping_address_name = doc.branch
+	dn.set_warehouse = doc.driver_warehouse
 	dn.posting_date = doc.posting_date
 	dn.posting_time = doc.posting_time
-	dn.set_warehouse = doc.driver_warehouse
+	dn.remarks = _("Gas Delivery via Driver {0} - Confirmed by Branch OTP").format(doc.driver or "")
 
-	for item in doc.items:
+	for itm in doc.items:
 		dn.append("items", {
-			"item_code": item.item_code,
-			"qty": flt(item.qty),
-			"rate": flt(item.rate),
+			"item_code": itm.item_code,
+			"qty": flt(itm.qty),
+			"uom": itm.uom or frappe.db.get_value("Item", itm.item_code, "stock_uom"),
 			"warehouse": doc.driver_warehouse,
-			"uom": item.uom or frappe.db.get_value("Item", item.item_code, "stock_uom")
+			"rate": flt(itm.rate) or 0
 		})
-
-	dn.remarks = _("سند تسليم غاز تلقائي لفرع {0} عبر التحقق برمز OTP (مستند: {1})").format(
-		doc.branch_title or doc.branch, doc.name
-	)
 
 	dn.insert(ignore_permissions=True)
 	dn.submit()
 
-	doc.delivery_note = dn.name
-	doc.save(ignore_permissions=True)
+	doc.db_set({
+		"otp_verified": 1,
+		"status": "Confirmed",
+		"delivery_note": dn.name
+	})
 
 	return {
 		"success": True,
 		"delivery_note": dn.name,
-		"message": _("تم التحقق بنجاح وإنشاء سند الإخراج والتسليم رقم {0}").format(dn.name)
+		"message": _("Delivery confirmed successfully! Delivery Note {0} created.").format(dn.name)
 	}

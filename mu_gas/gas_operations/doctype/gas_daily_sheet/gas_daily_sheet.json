@@ -34,7 +34,7 @@
    "default": "GDS-.YYYY.-.#####",
    "fieldname": "naming_series",
    "fieldtype": "Select",
-   "label": "السلسلة",
+   "label": "Series",
    "options": "GDS-.YYYY.-.#####",
    "reqd": 1
   },
@@ -44,7 +44,7 @@
    "fieldtype": "Date",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "تاريخ اليومية",
+   "label": "Sheet Date",
    "reqd": 1
   },
   {
@@ -52,7 +52,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "السائق / مسؤول التوزيع",
+   "label": "Driver / Route Supervisor",
    "options": "User",
    "reqd": 1
   },
@@ -60,7 +60,7 @@
    "fieldname": "vehicle_plate",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "رقم الشاحنة / السيارة"
+   "label": "Vehicle Plate Number"
   },
   {
    "fieldname": "column_break_1",
@@ -70,66 +70,66 @@
    "fieldname": "van_warehouse",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "مستودع سيارة السائق",
+   "label": "Driver Van Warehouse",
    "options": "Warehouse",
    "reqd": 1
   },
   {
    "fieldname": "cash_account",
    "fieldtype": "Link",
-   "label": "حساب الصندوق / نقدية السائق",
+   "label": "Cash / Custody Account",
    "options": "Account"
   },
   {
    "default": "Mubtkir",
    "fieldname": "company",
    "fieldtype": "Link",
-   "label": "الشركة",
+   "label": "Company",
    "options": "Company"
   },
   {
-   "default": "مسودة",
+   "default": "Draft",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "حالة المسير",
-   "options": "مسودة\nمرسل للمحاسب\nمعتمد وتم توليد العمليات\nملغي",
+   "label": "Status",
+   "options": "Draft\nSubmitted to Accountant\nApproved & Generated\nCancelled",
    "read_only": 1
   },
   {
    "fieldname": "section_break_sales",
    "fieldtype": "Section Break",
-   "label": "1. مبيعات اليوم الميدانية"
+   "label": "1. Field Daily Sales"
   },
   {
    "fieldname": "sales",
    "fieldtype": "Table",
-   "label": "جدول المبيعات",
+   "label": "Daily Sales",
    "options": "Gas Daily Sheet Sale"
   },
   {
    "fieldname": "section_break_expenses",
    "fieldtype": "Section Break",
-   "label": "2. مصاريف اليومية (ديزل، بنزين، صيانة...)"
+   "label": "2. Daily Expenses (Fuel, Maintenance...)"
   },
   {
    "fieldname": "expenses",
    "fieldtype": "Table",
-   "label": "جدول المصاريف",
+   "label": "Daily Expenses",
    "options": "Gas Daily Sheet Expense"
   },
   {
    "fieldname": "section_break_totals",
    "fieldtype": "Section Break",
-   "label": "إجماليات اليومية وصافي النقدية"
+   "label": "Totals & Net Cash"
   },
   {
    "default": "0",
    "fieldname": "total_sales",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "إجمالي المبيعات",
+   "label": "Total Sales",
    "read_only": 1
   },
   {
@@ -137,7 +137,7 @@
    "fieldname": "total_expenses",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "إجمالي المصروفات",
+   "label": "Total Expenses",
    "read_only": 1
   },
   {
@@ -149,31 +149,31 @@
    "fieldname": "net_cash",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "صافي النقدية المفترض توريدها",
+   "label": "Net Cash Collected",
    "read_only": 1
   },
   {
    "fieldname": "section_break_audit",
    "fieldtype": "Section Break",
-   "label": "اعتماد المحاسبة"
+   "label": "Auditing & Generation Log"
   },
   {
    "fieldname": "accountant_user",
    "fieldtype": "Link",
-   "label": "المحاسب المعتمد",
+   "label": "Accountant User",
    "options": "User",
    "read_only": 1
   },
   {
    "fieldname": "accountant_approval_date",
    "fieldtype": "Datetime",
-   "label": "تاريخ ووقت الاعتماد",
+   "label": "Approval Date & Time",
    "read_only": 1
   },
   {
    "fieldname": "remarks",
    "fieldtype": "Small Text",
-   "label": "ملاحظات وتوجيهات"
+   "label": "Remarks"
   }
  ],
  "index_web_pages_for_search": 1,

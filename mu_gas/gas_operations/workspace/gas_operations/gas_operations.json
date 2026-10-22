@@ -1,0 +1,171 @@
+{
+ "charts": [],
+ "content": "[{\"id\": \"header_shortcuts\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Gas Operations Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"sc_del\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Gas Branch Delivery\", \"col\": 3}}, {\"id\": \"sc_sheet\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Gas Daily Sheet\", \"col\": 3}}, {\"id\": \"sc_gasco\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Gasco Statement Importer\", \"col\": 3}}, {\"id\": \"sc_bill\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Gas Monthly Billing Tool\", \"col\": 3}}, {\"id\": \"spacer1\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"header_cards\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Operations & Financials</b></span>\", \"col\": 12}}, {\"id\": \"card_delivery\", \"type\": \"card\", \"data\": {\"card_name\": \"Branch Delivery & Logistics\", \"col\": 4}}, {\"id\": \"card_daily\", \"type\": \"card\", \"data\": {\"card_name\": \"Daily Operations & Financials\", \"col\": 4}}, {\"id\": \"card_gasco\", \"type\": \"card\", \"data\": {\"card_name\": \"GASCO Ingestion & Invoices\", \"col\": 4}}]",
+ "creation": "2026-10-22 15:00:00",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "icon": "truck",
+ "idx": 0,
+ "indicator_color": "orange",
+ "is_hidden": 0,
+ "label": "Gas Operations",
+ "module": "Gas Operations",
+ "name": "Gas Operations",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "roles": [],
+ "title": "Gas Operations",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Branch Delivery & Logistics",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Gas Branch Delivery",
+   "link_count": 0,
+   "link_to": "Gas Branch Delivery",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Gas Monthly Billing Tool",
+   "link_count": 0,
+   "link_to": "Gas Monthly Billing Tool",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Delivery Note",
+   "link_count": 0,
+   "link_to": "Delivery Note",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Daily Operations & Financials",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Gas Daily Sheet",
+   "link_count": 0,
+   "link_to": "Gas Daily Sheet",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sales Invoice",
+   "link_count": 0,
+   "link_to": "Sales Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Journal Entry",
+   "link_count": 0,
+   "link_to": "Journal Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "GASCO Ingestion & Invoices",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Gasco Statement Importer",
+   "link_count": 0,
+   "link_to": "Gasco Statement Importer",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Purchase Invoice",
+   "link_count": 0,
+   "link_to": "Purchase Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Payment Entry",
+   "link_count": 0,
+   "link_to": "Payment Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "format": "{} Deliveries",
+   "label": "Gas Branch Delivery",
+   "link_to": "Gas Branch Delivery",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "format": "{} Sheets",
+   "label": "Gas Daily Sheet",
+   "link_to": "Gas Daily Sheet",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Gasco Statement Importer",
+   "link_to": "Gasco Statement Importer",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Gas Monthly Billing Tool",
+   "link_to": "Gas Monthly Billing Tool",
+   "type": "DocType"
+  }
+ ]
+}

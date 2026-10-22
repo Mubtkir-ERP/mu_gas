@@ -18,7 +18,7 @@
    "fieldname": "customer",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "العميل",
+   "label": "Customer",
    "options": "Customer",
    "reqd": 1
   },
@@ -27,21 +27,21 @@
    "fieldname": "customer_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "اسم العميل",
+   "label": "Customer Name",
    "read_only": 1
   },
   {
    "fieldname": "branch",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "الفرع",
+   "label": "Customer Branch",
    "options": "Address"
   },
   {
    "fieldname": "item_code",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "الصنف",
+   "label": "Item Code",
    "options": "Item",
    "reqd": 1
   },
@@ -50,30 +50,30 @@
    "fieldname": "qty",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "الكمية",
+   "label": "Quantity",
    "reqd": 1
   },
   {
    "fieldname": "rate",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "السعر",
+   "label": "Rate",
    "reqd": 1
   },
   {
    "fieldname": "amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "الإجمالي",
+   "label": "Amount",
    "read_only": 1
   },
   {
-   "default": "نقدي",
+   "default": "Cash",
    "fieldname": "payment_method",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "طريقة الدفع",
-   "options": "نقدي\nشبكة مدى\nآجل (على الحساب)\nتحويل بنكي"
+   "label": "Payment Method",
+   "options": "Cash\nCredit Card / Mada\nCredit (On Account)\nBank Transfer"
   }
  ],
  "istable": 1,

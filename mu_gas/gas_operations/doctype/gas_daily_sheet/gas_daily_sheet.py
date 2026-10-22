@@ -5,7 +5,7 @@
 import frappe
 from frappe import _
 from frappe.model.document import Document
-from frappe.utils import flt, now_datetime, nowdate
+from frappe.utils import flt, now_datetime
 
 
 class GasDailySheet(Document):
@@ -13,109 +13,104 @@ class GasDailySheet(Document):
 		self.calculate_totals()
 
 	def calculate_totals(self):
-		total_s = 0.0
-		for row in self.get("sales", []):
-			row.amount = flt(row.qty) * flt(row.rate)
-			total_s += flt(row.amount)
+		total_sales = 0.0
+		total_expenses = 0.0
 
-		total_e = 0.0
-		for row in self.get("expenses", []):
-			total_e += flt(row.amount)
+		for s in self.get("sales", []):
+			s.amount = flt(s.qty) * flt(s.rate)
+			total_sales += flt(s.amount)
 
-		self.total_sales = total_s
-		self.total_expenses = total_e
-		self.net_cash = total_s - total_e
+		for e in self.get("expenses", []):
+			total_expenses += flt(e.amount)
+
+		self.total_sales = total_sales
+		self.total_expenses = total_expenses
+		self.net_cash = total_sales - total_expenses
 
 
 @frappe.whitelist()
 def approve_and_generate_entries(sheet_name):
-	"""Accountant approval: automatically generates Sales Invoices and Expense Journal Entries."""
-	doc = frappe.get_doc("Gas Daily Sheet", sheet_name)
-	if doc.status == "معتمد وتم توليد العمليات":
-		frappe.throw(_("تم اعتماد هذا المسير بالفعل سابقاً."))
+	"""Approved by Accountant: Creates Sales Invoices and Journal Entry for expenses automatically."""
+	sheet = frappe.get_doc("Gas Daily Sheet", sheet_name)
+	if sheet.status in ["Approved & Generated", "معتمد وتم توليد العمليات"]:
+		frappe.throw(_("This sheet has already been approved and processed."))
 
+	company = sheet.company or frappe.defaults.get_user_default("Company")
 	created_invoices = []
-	created_expense_entries = []
-	company = doc.company or frappe.defaults.get_user_default("Company")
 
-	# 1. Generate Sales Invoices for sales
-	for s in doc.sales:
+	# 1. Generate Sales Invoices for sales rows
+	for row in sheet.sales:
 		si = frappe.new_doc("Sales Invoice")
-		si.customer = s.customer
-		if s.branch:
-			si.customer_address = s.branch
+		si.customer = row.customer
+		if row.branch:
+			si.customer_address = row.branch
 		si.company = company
-		si.posting_date = doc.posting_date
-		si.set_warehouse = doc.van_warehouse
+		si.posting_date = sheet.posting_date
+		si.due_date = sheet.posting_date
+		si.set_warehouse = sheet.van_warehouse
+		si.update_stock = 1
 
 		si.append("items", {
-			"item_code": s.item_code,
-			"qty": flt(s.qty),
-			"rate": flt(s.rate),
-			"warehouse": doc.van_warehouse
+			"item_code": row.item_code,
+			"qty": flt(row.qty),
+			"rate": flt(row.rate),
+			"warehouse": sheet.van_warehouse
 		})
 
-		si.remarks = _("فاتورة مبيعات غاز مولدة آلياً من المسير اليومي {0} للسائق {1}").format(
-			doc.name, doc.driver
-		)
-
-		if s.payment_method in ["نقدي", "شبكة مدى"]:
+		pm = str(row.payment_method or "")
+		if "Cash" in pm or "نقدي" in pm:
 			si.is_pos = 1
-			# Get payment mode
-			mop = "Cash" if s.payment_method == "نقدي" else "Mada"
-			if not frappe.db.exists("Mode of Payment", mop):
-				mop = frappe.db.get_value("Mode of Payment", {"type": "Cash"}) or "Cash"
 			si.append("payments", {
-				"mode_of_payment": mop,
-				"amount": flt(s.amount)
+				"mode_of_payment": "Cash",
+				"amount": flt(row.amount),
+				"account": sheet.cash_account
 			})
 
+		si.remarks = _("Generated from Gas Daily Sheet: {0}").format(sheet.name)
 		si.insert(ignore_permissions=True)
 		si.submit()
 		created_invoices.append(si.name)
 
 	# 2. Generate Journal Entry for expenses
-	if doc.expenses:
+	je_name = None
+	if sheet.expenses and flt(sheet.total_expenses) > 0:
 		je = frappe.new_doc("Journal Entry")
 		je.voucher_type = "Journal Entry"
 		je.company = company
-		je.posting_date = doc.posting_date
-		je.user_remark = _("قيد إثبات مصاريف المسير اليومي {0} للسائق {1}").format(doc.name, doc.driver)
+		je.posting_date = sheet.posting_date
+		je.user_remark = _("Daily Expenses from Gas Sheet {0} - Driver {1}").format(sheet.name, sheet.driver)
 
-		cash_account = doc.cash_account or frappe.db.get_value("Company", company, "default_cash_account")
-
-		for exp in doc.expenses:
-			# Debit: Expense Account
-			je.append("accounts", {
-				"account": exp.expense_account,
-				"debit_in_account_currency": flt(exp.amount),
-				"user_remark": f"{exp.expense_type}: {exp.remarks or ''} {exp.receipt_reference or ''}"
-			})
-
-		# Credit: Cash Account
-		je.append("accounts", {
-			"account": cash_account,
-			"credit_in_account_currency": flt(doc.total_expenses),
-			"user_remark": _("صرف نقدية عهدة السائق {0}").format(doc.driver)
-		})
+		for exp in sheet.expenses:
+			if flt(exp.amount) > 0:
+				# Debit Expense Account
+				je.append("accounts", {
+					"account": exp.expense_account,
+					"debit_in_account_currency": flt(exp.amount),
+					"user_remark": f"{exp.expense_type}: {exp.receipt_reference or ''} {exp.remarks or ''}".strip()
+				})
+				# Credit Driver Cash/Custody Account
+				je.append("accounts", {
+					"account": sheet.cash_account,
+					"credit_in_account_currency": flt(exp.amount),
+					"user_remark": f"Cash settlement: {sheet.driver}"
+				})
 
 		je.insert(ignore_permissions=True)
 		je.submit()
-		created_expense_entries.append(je.name)
+		je_name = je.name
 
-	# Update sheet doc
-	doc.status = "معتمد وتم توليد العمليات"
-	doc.accountant_user = frappe.session.user
-	doc.accountant_approval_date = now_datetime()
-	doc.save(ignore_permissions=True)
-
-	msg = _("تم بنجاح اعتماد المسير اليومي! تم إنشاء {0} فاتورة مبيعات، وقيد مصاريف {1}.").format(
-		len(created_invoices), ", ".join(created_expense_entries) if created_expense_entries else "بدون مصاريف"
-	)
+	sheet.db_set({
+		"status": "Approved & Generated",
+		"accountant_user": frappe.session.user,
+		"accountant_approval_date": now_datetime(),
+		"remarks": (sheet.remarks or "") + f"\nGenerated Invoices: {', '.join(created_invoices)}. Journal Entry: {je_name or 'None'}."
+	})
 
 	return {
 		"success": True,
 		"invoices": created_invoices,
-		"expense_entries": created_expense_entries,
-		"message": msg
+		"journal_entry": je_name,
+		"message": _("Sheet approved! Generated {0} Sales Invoices and Journal Entry {1}.").format(
+			len(created_invoices), je_name or ""
+		)
 	}
