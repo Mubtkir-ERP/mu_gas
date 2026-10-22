@@ -1,0 +1,174 @@
+{
+ "charts": [],
+ "content": "[{\"id\": \"header_shortcuts\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>اختصارات عمليات الغاز</b></span>\", \"col\": 12}}, {\"id\": \"sc_del\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"تسليم فروع الغاز بالـ OTP\", \"col\": 3}}, {\"id\": \"sc_sheet\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"المسير اليومي للمبيعات والمصاريف\", \"col\": 3}}, {\"id\": \"sc_gasco\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"استيراد كشوفات غازكو بالإكسل\", \"col\": 3}}, {\"id\": \"sc_bill\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"الفوترة الشهرية المجمعة\", \"col\": 3}}, {\"id\": \"spacer1\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"header_cards\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>إدارة العمليات والمالية</b></span>\", \"col\": 12}}, {\"id\": \"card_delivery\", \"type\": \"card\", \"data\": {\"card_name\": \"تسليمات وتوزيع الفروع\", \"col\": 4}}, {\"id\": \"card_daily\", \"type\": \"card\", \"data\": {\"card_name\": \"اليومية والمسير الميداني\", \"col\": 4}}, {\"id\": \"card_gasco\", \"type\": \"card\", \"data\": {\"card_name\": \"كشوفات ومشتريات غازكو\", \"col\": 4}}]",
+ "creation": "2026-10-22 15:00:00",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "icon": "truck",
+ "idx": 0,
+ "indicator_color": "orange",
+ "is_hidden": 0,
+ "label": "عمليات الغاز",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "تسليمات وتوزيع الفروع",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "تسليم فروع الغاز بالـ OTP",
+   "link_count": 0,
+   "link_to": "Gas Branch Delivery",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "الفوترة الشهرية المجمعة",
+   "link_count": 0,
+   "link_to": "Gas Monthly Billing Tool",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "سندات التسليم والإخراج (Delivery Note)",
+   "link_count": 0,
+   "link_to": "Delivery Note",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "اليومية والمسير الميداني",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "المسير اليومي للمبيعات والمصاريف",
+   "link_count": 0,
+   "link_to": "Gas Daily Sheet",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "فواتير المبيعات",
+   "link_count": 0,
+   "link_to": "Sales Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "قيود اليومية",
+   "link_count": 0,
+   "link_to": "Journal Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "كشوفات ومشتريات غازكو",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "استيراد كشوفات غازكو بالإكسل",
+   "link_count": 0,
+   "link_to": "Gasco Statement Importer",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "فواتير المشتريات",
+   "link_count": 0,
+   "link_to": "Purchase Invoice",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "سندات الدفع والقبض",
+   "link_count": 0,
+   "link_to": "Payment Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2026-10-22 15:00:00",
+ "modified_by": "Administrator",
+ "module": "Gas Operations",
+ "name": "عمليات الغاز",
+ "public": 1,
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "color": "Orange",
+   "doc_view": "List",
+   "label": "تسليم فروع الغاز بالـ OTP",
+   "link_to": "Gas Branch Delivery",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "label": "المسير اليومي للمبيعات والمصاريف",
+   "link_to": "Gas Daily Sheet",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "label": "استيراد كشوفات غازكو بالإكسل",
+   "link_to": "Gasco Statement Importer",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "الفوترة الشهرية المجمعة",
+   "link_to": "Gas Monthly Billing Tool",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "عمليات الغاز"
+}

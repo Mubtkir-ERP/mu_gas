@@ -1,0 +1,254 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-10-22 15:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "customer",
+  "customer_name",
+  "branch",
+  "branch_title",
+  "branch_phone",
+  "column_break_1",
+  "posting_date",
+  "posting_time",
+  "driver",
+  "driver_warehouse",
+  "status",
+  "section_break_items",
+  "items",
+  "section_break_totals",
+  "total_qty",
+  "total_amount",
+  "column_break_totals",
+  "total_full_delivered",
+  "total_empty_received",
+  "section_break_otp",
+  "otp_code",
+  "otp_verified",
+  "delivery_note",
+  "sales_invoice",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "default": "GBD-.YYYY.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "السلسلة",
+   "options": "GBD-.YYYY.-.#####",
+   "reqd": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "العميل",
+   "options": "Customer",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "customer.customer_name",
+   "fieldname": "customer_name",
+   "fieldtype": "Data",
+   "label": "اسم العميل",
+   "read_only": 1
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "فرع العميل / العنوان",
+   "options": "Address",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "branch.address_title",
+   "fieldname": "branch_title",
+   "fieldtype": "Data",
+   "label": "اسم الفرع",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "branch.phone",
+   "fieldname": "branch_phone",
+   "fieldtype": "Data",
+   "label": "هاتف الفرع (لإرسال كود التحقق)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "تاريخ التسليم",
+   "reqd": 1
+  },
+  {
+   "default": "Now",
+   "fieldname": "posting_time",
+   "fieldtype": "Time",
+   "label": "وقت التسليم",
+   "reqd": 1
+  },
+  {
+   "fieldname": "driver",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "السائق / مندوب التوزيع",
+   "options": "User"
+  },
+  {
+   "fieldname": "driver_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "مستودع سيارة السائق",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "default": "Pending OTP",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "حالة التسليم",
+   "options": "Pending OTP\nConfirmed\nInvoiced\nCancelled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_items",
+   "fieldtype": "Section Break",
+   "label": "الأصناف والأسطوانات المسلمة"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "جدول الأصناف",
+   "options": "Gas Branch Delivery Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_totals",
+   "fieldtype": "Section Break",
+   "label": "الإجماليات"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_qty",
+   "fieldtype": "Float",
+   "label": "إجمالي الكمية",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "إجمالي القيمة التقديرية",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_totals",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_full_delivered",
+   "fieldtype": "Float",
+   "label": "إجمالي الممتلئ المُسلّم",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_empty_received",
+   "fieldtype": "Float",
+   "label": "إجمالي الفارغ المُستلم",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_otp",
+   "fieldtype": "Section Break",
+   "label": "التحقق والربط بسندات ERPNext"
+  },
+  {
+   "fieldname": "otp_code",
+   "fieldtype": "Data",
+   "label": "كود التحقق",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "otp_verified",
+   "fieldtype": "Check",
+   "label": "تم التحقق من الفرع",
+   "read_only": 1
+  },
+  {
+   "fieldname": "delivery_note",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "سند الإخراج والتسليم (Delivery Note)",
+   "options": "Delivery Note",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sales_invoice",
+   "fieldtype": "Link",
+   "label": "فاتورة المبيعات الشهرية المجمعة",
+   "options": "Sales Invoice",
+   "read_only": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "ملاحظات"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-22 15:00:00",
+ "modified_by": "Administrator",
+ "module": "Gas Delivery",
+ "name": "Gas Branch Delivery",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Stock User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

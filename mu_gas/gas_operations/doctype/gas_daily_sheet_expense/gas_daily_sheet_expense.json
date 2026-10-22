@@ -1,0 +1,60 @@
+{
+ "actions": [],
+ "creation": "2026-10-22 15:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "expense_type",
+  "expense_account",
+  "amount",
+  "receipt_reference",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "default": "ديزل وبنزين",
+   "fieldname": "expense_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "نوع المصروف",
+   "options": "ديزل وبنزين\nصيانة وتصليح سيارة\nوجبات ومخصصات سائقين\nرسوم ومواقف وغسيل\nنثريات تشغيلية أخرى",
+   "reqd": 1
+  },
+  {
+   "fieldname": "expense_account",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "حساب المصروف",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "المبلغ",
+   "reqd": 1
+  },
+  {
+   "fieldname": "receipt_reference",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "رقم الفاتورة / الإيصال"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "ملاحظات"
+  }
+ ],
+ "istable": 1,
+ "modified": "2026-10-22 15:00:00",
+ "modified_by": "Administrator",
+ "module": "Gas Operations",
+ "name": "Gas Daily Sheet Expense",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

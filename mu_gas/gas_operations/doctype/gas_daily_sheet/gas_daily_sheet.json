@@ -1,0 +1,215 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-10-22 15:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "posting_date",
+  "driver",
+  "vehicle_plate",
+  "column_break_1",
+  "van_warehouse",
+  "cash_account",
+  "company",
+  "status",
+  "section_break_sales",
+  "sales",
+  "section_break_expenses",
+  "expenses",
+  "section_break_totals",
+  "total_sales",
+  "total_expenses",
+  "column_break_totals",
+  "net_cash",
+  "section_break_audit",
+  "accountant_user",
+  "accountant_approval_date",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "default": "GDS-.YYYY.-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "السلسلة",
+   "options": "GDS-.YYYY.-.#####",
+   "reqd": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "تاريخ اليومية",
+   "reqd": 1
+  },
+  {
+   "fieldname": "driver",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "السائق / مسؤول التوزيع",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "fieldname": "vehicle_plate",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "رقم الشاحنة / السيارة"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "van_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "مستودع سيارة السائق",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cash_account",
+   "fieldtype": "Link",
+   "label": "حساب الصندوق / نقدية السائق",
+   "options": "Account"
+  },
+  {
+   "default": "Mubtkir",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "الشركة",
+   "options": "Company"
+  },
+  {
+   "default": "مسودة",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "حالة المسير",
+   "options": "مسودة\nمرسل للمحاسب\nمعتمد وتم توليد العمليات\nملغي",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_sales",
+   "fieldtype": "Section Break",
+   "label": "1. مبيعات اليوم الميدانية"
+  },
+  {
+   "fieldname": "sales",
+   "fieldtype": "Table",
+   "label": "جدول المبيعات",
+   "options": "Gas Daily Sheet Sale"
+  },
+  {
+   "fieldname": "section_break_expenses",
+   "fieldtype": "Section Break",
+   "label": "2. مصاريف اليومية (ديزل، بنزين، صيانة...)"
+  },
+  {
+   "fieldname": "expenses",
+   "fieldtype": "Table",
+   "label": "جدول المصاريف",
+   "options": "Gas Daily Sheet Expense"
+  },
+  {
+   "fieldname": "section_break_totals",
+   "fieldtype": "Section Break",
+   "label": "إجماليات اليومية وصافي النقدية"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_sales",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "إجمالي المبيعات",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_expenses",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "إجمالي المصروفات",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_totals",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "net_cash",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "صافي النقدية المفترض توريدها",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_audit",
+   "fieldtype": "Section Break",
+   "label": "اعتماد المحاسبة"
+  },
+  {
+   "fieldname": "accountant_user",
+   "fieldtype": "Link",
+   "label": "المحاسب المعتمد",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "accountant_approval_date",
+   "fieldtype": "Datetime",
+   "label": "تاريخ ووقت الاعتماد",
+   "read_only": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "ملاحظات وتوجيهات"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-22 15:00:00",
+ "modified_by": "Administrator",
+ "module": "Gas Operations",
+ "name": "Gas Daily Sheet",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

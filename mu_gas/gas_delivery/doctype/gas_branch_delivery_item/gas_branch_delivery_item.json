@@ -1,0 +1,89 @@
+{
+ "actions": [],
+ "creation": "2026-10-22 15:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "item_code",
+  "item_name",
+  "qty",
+  "uom",
+  "column_break_1",
+  "full_qty",
+  "empty_qty",
+  "rate",
+  "amount"
+ ],
+ "fields": [
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "الصنف",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "item_code.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "اسم الصنف",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "الكمية",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "item_code.stock_uom",
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "label": "وحدة القياس",
+   "options": "UOM"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "full_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "أسطوانات ممتلئة مُسلّمة"
+  },
+  {
+   "default": "0",
+   "fieldname": "empty_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "أسطوانات فارغة مُستلمة"
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "label": "السعر"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "المبلغ الإجمالي",
+   "read_only": 1
+  }
+ ],
+ "istable": 1,
+ "modified": "2026-10-22 15:00:00",
+ "modified_by": "Administrator",
+ "module": "Gas Delivery",
+ "name": "Gas Branch Delivery Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

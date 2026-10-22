@@ -1,0 +1,133 @@
+{
+ "actions": [],
+ "creation": "2026-10-22 15:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "supplier",
+  "company",
+  "column_break_1",
+  "item_code",
+  "warehouse",
+  "payment_account",
+  "section_break_file",
+  "excel_file",
+  "status",
+  "section_break_preview",
+  "preview_html"
+ ],
+ "fields": [
+  {
+   "default": "استيراد كشف مسحوبات غازكو",
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "عنوان العملية",
+   "reqd": 1
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "المورد (شركة غازكو)",
+   "options": "Supplier",
+   "reqd": 1
+  },
+  {
+   "default": "Mubtkir",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "الشركة",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "item_code",
+   "fieldtype": "Link",
+   "label": "صنف الغاز (LPG Bulk)",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "label": "مستودع استلام الغاز",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "payment_account",
+   "fieldtype": "Link",
+   "label": "حساب السداد / البنك",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_file",
+   "fieldtype": "Section Break",
+   "label": "ملف كشف الإكسل"
+  },
+  {
+   "fieldname": "excel_file",
+   "fieldtype": "Attach",
+   "label": "ملف كشف غازكو (Excel .xlsx / .xls)",
+   "reqd": 1
+  },
+  {
+   "default": "مسودة",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "الحالة",
+   "options": "مسودة\nتم الاستيراد والتحويل\nخطأ في المعالجة",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_preview",
+   "fieldtype": "Section Break",
+   "label": "معاينة ومطابقة العمليات"
+  },
+  {
+   "fieldname": "preview_html",
+   "fieldtype": "HTML",
+   "label": "جدول المعاينة"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-10-22 15:00:00",
+ "modified_by": "Administrator",
+ "module": "Gasco Import",
+ "name": "Gasco Statement Importer",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}

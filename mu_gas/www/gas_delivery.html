@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>تسليم الغاز - {{ branch_title }}</title>
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<style>
+		body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; }
+	</style>
+</head>
+<body class="min-h-screen pb-12">
+	<!-- Header Bar -->
+	<header class="bg-blue-600 text-white p-4 shadow-md sticky top-0 z-30">
+		<div class="max-w-md mx-auto flex items-center justify-between">
+			<div class="flex items-center gap-2">
+				<span class="text-2xl">🔥</span>
+				<h1 class="text-lg font-bold">تسليم وتوثيق الغاز للفرع</h1>
+			</div>
+			<span class="text-xs bg-blue-700 px-2.5 py-1 rounded-full font-semibold">تأكيد بالـ OTP</span>
+		</div>
+	</header>
+
+	<main class="max-w-md mx-auto px-4 mt-4 space-y-4">
+		<!-- Branch & Customer Card -->
+		<div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200">
+			<div class="flex items-start justify-between">
+				<div>
+					<span class="text-xs font-semibold text-slate-500">العميل</span>
+					<h2 class="text-base font-bold text-slate-900">{{ customer_name or "عميل غير محدد" }}</h2>
+				</div>
+				<span class="bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold px-2.5 py-1 rounded-lg">
+					🏢 {{ branch_title or "الفرع الرئيسي" }}
+				</span>
+			</div>
+			<div class="mt-3 pt-3 border-t border-slate-100 text-xs text-slate-600 space-y-1">
+				<div class="flex items-center gap-1.5">
+					<span>📍</span>
+					<span>{{ branch_line }} {{ branch_city }}</span>
+				</div>
+				<div class="flex items-center gap-1.5">
+					<span>📞</span>
+					<span dir="ltr">{{ branch_phone }}</span>
+				</div>
+			</div>
+		</div>
+
+		<!-- Warehouse selection -->
+		<div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200">
+			<label class="block text-xs font-bold text-slate-700 mb-1.5">مستودع سيارة السائق (العهدة)</label>
+			<input type="text" id="driver_warehouse" value="{{ default_warehouse }}" placeholder="أدخل كود مستودع السيارة..." class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:outline-none">
+		</div>
+
+		<!-- Items Entry -->
+		<div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200">
+			<h3 class="text-sm font-bold text-slate-900 mb-3 flex items-center justify-between">
+				<span>الأسطوانات والكميات المسلّمة</span>
+				<button type="button" onclick="addItemRow()" class="text-xs text-blue-600 font-bold hover:underline">+ صنف إضافي</button>
+			</h3>
+
+			<div id="items-container" class="space-y-3">
+				<!-- Row 1 -->
+				<div class="item-row p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+					<div>
+						<label class="text-[11px] font-semibold text-slate-500">الصنف</label>
+						<select class="item-code w-full bg-white border border-slate-300 rounded-lg p-2 text-xs font-bold">
+							{% for itm in gas_items %}
+							<option value="{{ itm.name }}" data-rate="{{ itm.standard_rate or 0 }}">{{ itm.item_name }}</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="grid grid-cols-2 gap-2">
+						<div>
+							<label class="text-[11px] font-semibold text-slate-500">ممتلئ مُسلّم</label>
+							<input type="number" min="1" value="1" class="item-qty w-full bg-white border border-slate-300 rounded-lg p-2 text-sm font-bold text-center">
+						</div>
+						<div>
+							<label class="text-[11px] font-semibold text-slate-500">فارغ مُستلم</label>
+							<input type="number" min="0" value="1" class="item-empty w-full bg-white border border-slate-300 rounded-lg p-2 text-sm font-bold text-center">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Actions Step 1: Send OTP -->
+		<div id="step-send-otp" class="space-y-2">
+			<button type="button" onclick="requestOTP()" id="btn-send-otp" class="w-full py-3.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center gap-2">
+				<span>إرسال كود التحقق لفرع العميل 📲</span>
+			</button>
+			<p class="text-center text-[11px] text-slate-500">سيصل رمز التحقق (OTP) إلى جوال الفرع المسجل: {{ branch_phone }}</p>
+		</div>
+
+		<!-- Actions Step 2: Verify OTP (Hidden by default) -->
+		<div id="step-verify-otp" class="hidden bg-emerald-50 border border-emerald-200 rounded-2xl p-4 space-y-3">
+			<div class="text-center">
+				<h4 class="text-sm font-bold text-emerald-900">تم إرسال كود التحقق بنجاح!</h4>
+				<p class="text-xs text-emerald-700">اطلب الكود من مسؤول الفرع المكون من 5 أرقام:</p>
+			</div>
+			<input type="text" id="input-otp" maxlength="5" placeholder="• • • • •" class="w-full text-center text-3xl font-bold tracking-widest bg-white border border-emerald-400 rounded-xl py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+			<button type="button" onclick="confirmDelivery()" id="btn-confirm" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-bold text-sm rounded-xl shadow-md transition-all">
+				تأكيد الاستلام وإنشاء سند الإخراج 🚚
+			</button>
+			<button type="button" onclick="requestOTP()" class="w-full text-center text-xs text-slate-500 hover:underline">
+				إعادة إرسال الكود 🔄
+			</button>
+		</div>
+
+		<!-- Success State -->
+		<div id="step-success" class="hidden bg-white border border-emerald-300 rounded-2xl p-6 text-center space-y-3 shadow-lg">
+			<div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mx-auto">
+				✓
+			</div>
+			<h3 class="text-lg font-bold text-slate-900">تم تأكيد التسليم بنجاح!</h3>
+			<p class="text-xs text-slate-600">تم خصم الكمية من عهدة سيارة السائق وإنشاء سند التسليم برقم:</p>
+			<div id="dn-badge" class="font-bold text-sm text-blue-700 bg-blue-50 py-2 rounded-xl border border-blue-200">
+				DN-XXXXX
+			</div>
+			<p class="text-[11px] text-slate-400">ستُدرج هذه العملية تلقائياً في الفاتورة المجمعة نهاية الشهر.</p>
+		</div>
+	</main>
+
+	<script>
+		let activeDeliveryName = null;
+
+		function addItemRow() {
+			const container = document.getElementById('items-container');
+			const firstRow = container.querySelector('.item-row');
+			const clone = firstRow.cloneNode(true);
+			clone.querySelector('.item-qty').value = "1";
+			clone.querySelector('.item-empty').value = "1";
+			container.appendChild(clone);
+		}
+
+		async function requestOTP() {
+			const btn = document.getElementById('btn-send-otp');
+			btn.disabled = true;
+			btn.innerText = "جاري الحفظ وإرسال الرمز...";
+
+			const items = [];
+			document.querySelectorAll('.item-row').forEach(row => {
+				const code = row.querySelector('.item-code').value;
+				const sel = row.querySelector('.item-code');
+				const rate = parseFloat(sel.options[sel.selectedIndex].dataset.rate || 0);
+				const qty = parseFloat(row.querySelector('.item-qty').value || 1);
+				const empty = parseFloat(row.querySelector('.item-empty').value || 0);
+				items.push({ item_code: code, qty: qty, full_qty: qty, empty_qty: empty, rate: rate });
+			});
+
+			const payload = {
+				customer: "{{ customer }}",
+				branch: "{{ branch }}",
+				driver_warehouse: document.getElementById('driver_warehouse').value,
+				items: items
+			};
+
+			try {
+				// Create draft delivery doc
+				const res = await fetch('/api/method/frappe.client.insert', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json', 'X-Frappe-CSRF-Token': frappe_csrf_token() },
+					body: JSON.stringify({
+						doc: {
+							doctype: "Gas Branch Delivery",
+							customer: payload.customer,
+							branch: payload.branch,
+							driver_warehouse: payload.driver_warehouse,
+							status: "Pending OTP",
+							items: payload.items
+						}
+					})
+				});
+				const d = await res.json();
+				if (d.message && d.message.name) {
+					activeDeliveryName = d.message.name;
+					// Trigger OTP
+					const otpRes = await fetch('/api/method/mu_gas.gas_delivery.doctype.gas_branch_delivery.gas_branch_delivery.send_delivery_otp', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json', 'X-Frappe-CSRF-Token': frappe_csrf_token() },
+						body: JSON.stringify({ delivery_name: activeDeliveryName })
+					});
+					const otpJson = await otpRes.json();
+					document.getElementById('step-send-otp').classList.add('hidden');
+					document.getElementById('step-verify-otp').classList.remove('hidden');
+				} else {
+					alert(d.exc || "تعذر إنشاء سند التسليم");
+					btn.disabled = false;
+					btn.innerText = "إرسال كود التحقق لفرع العميل 📲";
+				}
+			} catch (e) {
+				alert("خطأ: " + e.message);
+				btn.disabled = false;
+				btn.innerText = "إرسال كود التحقق لفرع العميل 📲";
+			}
+		}
+
+		async function confirmDelivery() {
+			const otp = document.getElementById('input-otp').value.trim();
+			if (!otp) {
+				alert("يرجى إدخال كود التحقق المستلم من الفرع");
+				return;
+			}
+			const btn = document.getElementById('btn-confirm');
+			btn.disabled = true;
+			btn.innerText = "جاري التحقق وتوليد سند الإخراج...";
+
+			try {
+				const res = await fetch('/api/method/mu_gas.gas_delivery.doctype.gas_branch_delivery.gas_branch_delivery.verify_otp_and_confirm', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json', 'X-Frappe-CSRF-Token': frappe_csrf_token() },
+					body: JSON.stringify({ delivery_name: activeDeliveryName, input_otp: otp })
+				});
+				const data = await res.json();
+				if (data.message && data.message.success) {
+					document.getElementById('step-verify-otp').classList.add('hidden');
+					document.getElementById('dn-badge').innerText = data.message.delivery_note;
+					document.getElementById('step-success').classList.remove('hidden');
+				} else {
+					alert(data.exc || "كود التحقق غير صحيح");
+					btn.disabled = false;
+					btn.innerText = "تأكيد الاستلام وإنشاء سند الإخراج 🚚";
+				}
+			} catch (e) {
+				alert("خطأ في التحقق: " + e.message);
+				btn.disabled = false;
+				btn.innerText = "تأكيد الاستلام وإنشاء سند الإخراج 🚚";
+			}
+		}
+
+		function frappe_csrf_token() {
+			return window.frappe ? window.frappe.csrf_token : (document.cookie.match(/csrf_token=([^;]+)/) || [])[1] || "";
+		}
+	</script>
+</body>
+</html>
