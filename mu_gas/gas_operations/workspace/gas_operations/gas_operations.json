@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\": \"header_shortcuts\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Gas Operations Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"sc_del\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Gas Branch Delivery\", \"col\": 3}}, {\"id\": \"sc_sheet\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Gas Daily Sheet\", \"col\": 3}}, {\"id\": \"sc_gasco\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Gasco Statement Importer\", \"col\": 3}}, {\"id\": \"sc_bill\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Gas Monthly Billing Tool\", \"col\": 3}}, {\"id\": \"spacer1\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"header_cards\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Operations & Financials</b></span>\", \"col\": 12}}, {\"id\": \"card_delivery\", \"type\": \"card\", \"data\": {\"card_name\": \"Branch Delivery & Logistics\", \"col\": 4}}, {\"id\": \"card_daily\", \"type\": \"card\", \"data\": {\"card_name\": \"Daily Operations & Financials\", \"col\": 4}}, {\"id\": \"card_gasco\", \"type\": \"card\", \"data\": {\"card_name\": \"GASCO Ingestion & Invoices\", \"col\": 4}}]",
+ "content": "[{\"id\": \"header_shortcuts\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>Gas Operations Shortcuts</b></span>\", \"col\": 12}}, {\"id\": \"sc_del\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Gas Branch Delivery\", \"col\": 3}}, {\"id\": \"sc_sheet\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Gas Daily Sheet\", \"col\": 3}}, {\"id\": \"sc_gasco\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Gasco Statement Importer\", \"col\": 3}}, {\"id\": \"sc_bill\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Gas Monthly Billing Tool\", \"col\": 3}}, {\"id\": \"spacer1\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"header_cards\", \"type\": \"header\", \"data\": {\"text\": \"<span class=\\\"h4\\\"><b>العمليات والتشغيل اليومي</b></span>\", \"col\": 12}}, {\"id\": \"card_daily\", \"type\": \"card\", \"data\": {\"card_name\": \"Daily Operations & Financials\", \"col\": 4}}, {\"id\": \"card_delivery\", \"type\": \"card\", \"data\": {\"card_name\": \"Branch Delivery & Logistics\", \"col\": 4}}, {\"id\": \"card_gasco\", \"type\": \"card\", \"data\": {\"card_name\": \"GASCO Ingestion & Invoices\", \"col\": 4}}]",
  "creation": "2026-10-22 15:00:00",
  "custom_blocks": [],
  "docstatus": 0,
@@ -18,45 +18,6 @@
  "roles": [],
  "title": "Gas Operations",
  "links": [
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Branch Delivery & Logistics",
-   "link_count": 3,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Gas Branch Delivery",
-   "link_count": 0,
-   "link_to": "Gas Branch Delivery",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Gas Monthly Billing Tool",
-   "link_count": 0,
-   "link_to": "Gas Monthly Billing Tool",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Delivery Note",
-   "link_count": 0,
-   "link_to": "Delivery Note",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
   {
    "hidden": 0,
    "is_query_report": 0,
@@ -92,6 +53,45 @@
    "label": "Journal Entry",
    "link_count": 0,
    "link_to": "Journal Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Branch Delivery & Logistics",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Gas Branch Delivery",
+   "link_count": 0,
+   "link_to": "Gas Branch Delivery",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Gas Monthly Billing Tool",
+   "link_count": 0,
+   "link_to": "Gas Monthly Billing Tool",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Delivery Note",
+   "link_count": 0,
+   "link_to": "Delivery Note",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
