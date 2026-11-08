@@ -96,6 +96,10 @@ def _create_invoice_for_deliveries(customer, branch, delivery_list, company, pos
 		posting_date, ", ".join(delivery_names[:10]) + ("..." if len(delivery_names) > 10 else "")
 	)
 
+	# Set standard ERPNext defaults and taxes (Strictly system standard)
+	si.run_method("set_missing_values")
+	si.run_method("calculate_taxes_and_totals")
+
 	si.insert(ignore_permissions=True)
 
 	# Update the delivery records to link this Sales Invoice

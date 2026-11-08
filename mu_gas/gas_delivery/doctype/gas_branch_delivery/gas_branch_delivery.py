@@ -39,22 +39,78 @@ class GasBranchDelivery(Document):
 
 
 @frappe.whitelist()
+def create_branch_delivery(customer, items, driver_warehouse, branch=None, sales_order=None):
+	"""Creates a Gas Branch Delivery record and dispatches OTP in a single clean transaction."""
+	if not customer:
+		frappe.throw(_("Customer is required."))
+
+	if isinstance(items, str):
+		import json
+		items = json.loads(items)
+
+	if not items:
+		frappe.throw(_("At least one item is required for delivery."))
+
+	doc = frappe.new_doc("Gas Branch Delivery")
+	doc.customer = customer
+	doc.branch = branch or None
+	doc.sales_order = sales_order or None
+	doc.driver_warehouse = driver_warehouse
+	doc.driver = frappe.session.user
+	doc.status = "Pending OTP"
+
+	for itm in items:
+		doc.append("items", {
+			"item_code": itm.get("item_code"),
+			"qty": flt(itm.get("qty", 1)),
+			"full_qty": flt(itm.get("full_qty", itm.get("qty", 1))),
+			"empty_qty": flt(itm.get("empty_qty", 0)),
+			"rate": flt(itm.get("rate", 0)),
+			"so_detail": itm.get("so_detail")
+		})
+
+	doc.insert(ignore_permissions=True)
+	otp_res = send_delivery_otp(doc.name)
+
+	return {
+		"success": True,
+		"delivery_name": doc.name,
+		"otp_message": otp_res.get("message")
+	}
+
+
+@frappe.whitelist()
 def send_delivery_otp(delivery_name):
-	"""Generates 5-digit OTP and sends it to the customer branch phone via WhatsApp/SMS."""
+	"""Generates 5-digit OTP and sends it to customer/branch phone via WhatsApp."""
 	doc = frappe.get_doc("Gas Branch Delivery", delivery_name)
 	if doc.status == "Confirmed":
 		frappe.throw(_("This delivery has already been confirmed."))
 
-	phone = doc.branch_phone or frappe.db.get_value("Address", doc.branch, "phone")
+	phone = doc.branch_phone
+	if not phone and doc.branch:
+		phone = frappe.db.get_value("Address", doc.branch, "phone")
+	if not phone and doc.customer:
+		phone = frappe.db.get_value("Customer", doc.customer, "mobile_no")
+		if not phone:
+			# Search primary contact phone
+			contact_name = frappe.db.get_value(
+				"Dynamic Link",
+				{"link_doctype": "Customer", "link_name": doc.customer, "parenttype": "Contact"},
+				"parent"
+			)
+			if contact_name:
+				phone = frappe.db.get_value("Contact", contact_name, "mobile_no") or frappe.db.get_value("Contact", contact_name, "phone")
+
 	if not phone:
-		frappe.throw(_("No phone number registered for customer branch to send OTP."))
+		frappe.throw(_("No phone number registered for customer or branch to send OTP."))
 
 	otp = f"{secrets.randbelow(90000) + 10000}"
 	doc.db_set("otp_code", otp)
 
+	recipient_desc = doc.branch_title or doc.customer_name or doc.customer
 	msg = _(
-		"Gas delivery confirmation code for {0} ({1}): {2}. Please provide this code to the driver."
-	).format(doc.customer_name, doc.branch_title or doc.branch, otp)
+		"Gas delivery confirmation code for {0}: {1}. Please provide this code to the driver."
+	).format(recipient_desc, otp)
 
 	try:
 		if frappe.db.exists("DocType", "WhatsApp Message"):
@@ -68,38 +124,54 @@ def send_delivery_otp(delivery_name):
 
 	return {
 		"success": True,
-		"message": _("Verification code sent successfully to branch phone: {0}").format(phone)
+		"message": _("Verification code sent successfully to: {0}").format(phone)
 	}
 
 
 @frappe.whitelist()
 def verify_otp_and_confirm(delivery_name, input_otp):
-	"""Verifies 5-digit OTP and generates ERPNext Delivery Note automatically."""
+	"""Verifies 5-digit OTP and generates standard ERPNext Delivery Note automatically."""
 	doc = frappe.get_doc("Gas Branch Delivery", delivery_name)
 	if doc.status == "Confirmed":
 		frappe.throw(_("This delivery has already been confirmed."))
 
 	if str(doc.otp_code).strip() != str(input_otp).strip():
-		frappe.throw(_("Invalid OTP code. Please verify the code sent to the customer branch."))
+		frappe.throw(_("Invalid OTP code. Please verify the code sent to the customer."))
 
-	# Create Delivery Note in ERPNext
+	# Create standard ERPNext Delivery Note
 	dn = frappe.new_doc("Delivery Note")
 	dn.customer = doc.customer
-	dn.customer_address = doc.branch
-	dn.shipping_address_name = doc.branch
+	if doc.branch:
+		dn.customer_address = doc.branch
+		dn.shipping_address_name = doc.branch
 	dn.set_warehouse = doc.driver_warehouse
 	dn.posting_date = doc.posting_date
 	dn.posting_time = doc.posting_time
-	dn.remarks = _("Gas Delivery via Driver {0} - Confirmed by Branch OTP").format(doc.driver or "")
+	if doc.sales_order:
+		dn.against_sales_order = doc.sales_order
+
+	dn.remarks = _("Gas Delivery via Driver {0} - Confirmed by OTP").format(doc.driver or "")
+	if doc.sales_order:
+		dn.remarks += f" - Against Sales Order: {doc.sales_order}"
 
 	for itm in doc.items:
-		dn.append("items", {
+		item_row = {
 			"item_code": itm.item_code,
 			"qty": flt(itm.qty),
 			"uom": itm.uom or frappe.db.get_value("Item", itm.item_code, "stock_uom"),
 			"warehouse": doc.driver_warehouse,
 			"rate": flt(itm.rate) or 0
-		})
+		}
+		if itm.so_detail or doc.sales_order:
+			item_row["against_sales_order"] = doc.sales_order
+			if itm.so_detail:
+				item_row["so_detail"] = itm.so_detail
+
+		dn.append("items", item_row)
+
+	# Set standard ERPNext defaults and taxes (Strictly system standard)
+	dn.run_method("set_missing_values")
+	dn.run_method("calculate_taxes_and_totals")
 
 	dn.insert(ignore_permissions=True)
 	dn.submit()

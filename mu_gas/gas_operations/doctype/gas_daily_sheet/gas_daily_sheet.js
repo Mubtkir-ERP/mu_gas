@@ -1,4 +1,25 @@
 frappe.ui.form.on("Gas Daily Sheet", {
+	setup(frm) {
+		frm.set_query("expense_account", "expenses", function() {
+			return {
+				filters: {
+					company: frm.doc.company,
+					root_type: "Expense",
+					is_group: 0
+				}
+			};
+		});
+
+		frm.set_query("van_warehouse", function() {
+			return {
+				filters: {
+					company: frm.doc.company,
+					is_group: 0
+				}
+			};
+		});
+	},
+
 	refresh(frm) {
 		if ((frm.doc.status === "Draft" || frm.doc.status === "مسودة") && !frm.is_new()) {
 			frm.add_custom_button(__("Submit to Accountant 📤"), () => {
@@ -34,3 +55,56 @@ frappe.ui.form.on("Gas Daily Sheet", {
 		}
 	}
 });
+
+frappe.ui.form.on("Gas Daily Sheet Expense", {
+	amount(frm, cdt, cdn) {
+		let row = locals[cdt][cdn];
+		row.total_amount = flt(row.amount) + flt(row.tax_amount || 0);
+		frm.refresh_field("expenses");
+		calculate_sheet_totals(frm);
+	},
+	tax_amount(frm, cdt, cdn) {
+		let row = locals[cdt][cdn];
+		row.total_amount = flt(row.amount) + flt(row.tax_amount || 0);
+		frm.refresh_field("expenses");
+		calculate_sheet_totals(frm);
+	},
+	expenses_remove(frm) {
+		calculate_sheet_totals(frm);
+	}
+});
+
+frappe.ui.form.on("Gas Daily Sheet Sale", {
+	qty(frm, cdt, cdn) {
+		let row = locals[cdt][cdn];
+		row.amount = flt(row.qty) * flt(row.rate || 0);
+		frm.refresh_field("sales");
+		calculate_sheet_totals(frm);
+	},
+	rate(frm, cdt, cdn) {
+		let row = locals[cdt][cdn];
+		row.amount = flt(row.qty) * flt(row.rate || 0);
+		frm.refresh_field("sales");
+		calculate_sheet_totals(frm);
+	},
+	sales_remove(frm) {
+		calculate_sheet_totals(frm);
+	}
+});
+
+function calculate_sheet_totals(frm) {
+	let total_sales = 0.0;
+	let total_expenses = 0.0;
+
+	(frm.doc.sales || []).forEach(s => {
+		total_sales += flt(s.amount);
+	});
+
+	(frm.doc.expenses || []).forEach(e => {
+		total_expenses += flt(e.total_amount || (flt(e.amount) + flt(e.tax_amount || 0)));
+	});
+
+	frm.set_value("total_sales", total_sales);
+	frm.set_value("total_expenses", total_expenses);
+	frm.set_value("net_cash", total_sales - total_expenses);
+}

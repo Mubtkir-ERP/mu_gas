@@ -8,6 +8,7 @@
   "item_name",
   "qty",
   "uom",
+  "so_detail",
   "column_break_1",
   "full_qty",
   "empty_qty",
@@ -45,6 +46,12 @@
    "fieldtype": "Link",
    "label": "UOM",
    "options": "UOM"
+  },
+  {
+   "fieldname": "so_detail",
+   "fieldtype": "Data",
+   "label": "Sales Order Item",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_1",

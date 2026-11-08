@@ -135,3 +135,31 @@ Verification & ERPNext References,التحقق والربط بسندات ERPNext
 Verification code sent successfully to branch phone: {0},تم إرسال كود التحقق بنجاح إلى جوال الفرع: {0}
 Verify Branch Receipt,التحقق من استلام الفرع
 Verify OTP & Confirm Delivery ✔️,إدخال كود التحقق وتأكيد التسليم ✔️
+
+Net Amount,المبلغ قبل الضريبة
+Tax Amount (VAT),مبلغ الضريبة
+Total with Tax,الإجمالي شامل الضريبة
+Receipt Photo / Attachment,صورة الفاتورة / الإيصال
+Matched Purchase Invoice,فاتورة المشتريات المطابقة
+Matched Invoices,الفواتير المطابقة
+Missing Invoices in ERPNext,فواتير غير مدخلة بالنظام
+Discrepancy Invoices,فواتير يوجد بها فرق
+Reconciliation Summary,ملخص المطابقة
+Reconciliation Items,تفاصيل مطابقة الكشف
+Statement Reconciliation Items,بنود مطابقة كشف غازكو
+Matched,مطابق
+Missing in ERPNext,غير مدخل بالنظام
+Discrepancy,يوجد فرق
+Statement Amount,المبلغ بالكشف
+Invoice Amount,مبلغ الفاتورة بالنظام
+Difference,الفرق
+Sales Order Item,بند طلب المبيعات
+Statement Title,عنوان الكشف
+Total Statement Rows,إجمالي عمليات الكشف
+Total Statement Amount,إجمالي مبالغ الكشف
+Total Matched Amount,إجمالي المبالغ المطابقة
+Tires, Oil & Lubricants,إطارات وزيوت
+Driver Allowance & Meals,إعاشة وبدل سائق
+Parking, Tolls & Washing,رسوم طرق ومواقف وغسيل
+Government & Municipal Fees,رسوم حكومية وبلدية
+Other Operating Expenses,مصاريف تشغيلية أخرى

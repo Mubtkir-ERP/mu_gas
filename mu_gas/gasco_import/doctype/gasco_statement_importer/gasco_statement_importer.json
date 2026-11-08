@@ -8,18 +8,24 @@
   "supplier",
   "company",
   "column_break_1",
-  "item_code",
-  "warehouse",
-  "payment_account",
-  "section_break_file",
   "excel_file",
   "status",
+  "section_break_summary",
+  "total_rows",
+  "matched_rows",
+  "missing_rows",
+  "column_break_summary",
+  "discrepancy_rows",
+  "total_statement_amount",
+  "total_matched_amount",
+  "section_break_items",
+  "items",
   "section_break_preview",
   "preview_html"
  ],
  "fields": [
   {
-   "default": "GASCO Statement Import",
+   "default": "GASCO Statement Reconciliation",
    "fieldname": "title",
    "fieldtype": "Data",
    "label": "Statement Title",
@@ -28,6 +34,7 @@
   {
    "fieldname": "supplier",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Supplier (GASCO)",
    "options": "Supplier",
    "reqd": 1
@@ -45,32 +52,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "item_code",
-   "fieldtype": "Link",
-   "label": "Gas Item (LPG Bulk)",
-   "options": "Item",
-   "reqd": 1
-  },
-  {
-   "fieldname": "warehouse",
-   "fieldtype": "Link",
-   "label": "Receiving Warehouse",
-   "options": "Warehouse",
-   "reqd": 1
-  },
-  {
-   "fieldname": "payment_account",
-   "fieldtype": "Link",
-   "label": "Payment Account (Bank / Cash)",
-   "options": "Account",
-   "reqd": 1
-  },
-  {
-   "fieldname": "section_break_file",
-   "fieldtype": "Section Break",
-   "label": "Excel Statement File"
-  },
-  {
    "fieldname": "excel_file",
    "fieldtype": "Attach",
    "label": "Excel File",
@@ -80,28 +61,90 @@
    "default": "Draft",
    "fieldname": "status",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Status",
-   "options": "Draft\nPreviewed\nProcessed\nFailed",
+   "options": "Draft\nAnalyzed\nReconciled",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_summary",
+   "fieldtype": "Section Break",
+   "label": "Reconciliation Summary"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_rows",
+   "fieldtype": "Int",
+   "label": "Total Statement Rows",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "matched_rows",
+   "fieldtype": "Int",
+   "label": "Matched Invoices",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "missing_rows",
+   "fieldtype": "Int",
+   "label": "Missing Invoices in ERPNext",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_summary",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "discrepancy_rows",
+   "fieldtype": "Int",
+   "label": "Discrepancy Invoices",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_statement_amount",
+   "fieldtype": "Currency",
+   "label": "Total Statement Amount",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_matched_amount",
+   "fieldtype": "Currency",
+   "label": "Total Matched Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_items",
+   "fieldtype": "Section Break",
+   "label": "Reconciliation Items"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Statement Reconciliation Items",
+   "options": "Gasco Statement Item"
   },
   {
    "fieldname": "section_break_preview",
    "fieldtype": "Section Break",
-   "label": "Preview Statement Data"
+   "label": "Visual Summary"
   },
   {
    "fieldname": "preview_html",
    "fieldtype": "HTML",
-   "label": "Preview Data"
+   "label": "Preview HTML"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-10-22 15:00:00",
+ "modified": "2026-11-08 13:40:00",
  "modified_by": "Administrator",
  "module": "Gasco Import",
  "name": "Gasco Statement Importer",
- "naming_rule": "Autoincrement",
  "owner": "Administrator",
  "permissions": [
   {

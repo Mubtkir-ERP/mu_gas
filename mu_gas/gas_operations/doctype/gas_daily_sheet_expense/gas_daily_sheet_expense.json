@@ -4,20 +4,32 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "expense_date",
   "expense_type",
   "expense_account",
   "amount",
+  "tax_amount",
+  "total_amount",
   "receipt_reference",
+  "receipt_image",
   "remarks"
  ],
  "fields": [
+  {
+   "default": "Today",
+   "fieldname": "expense_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Expense Date",
+   "reqd": 1
+  },
   {
    "default": "Fuel & Diesel",
    "fieldname": "expense_type",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Expense Type",
-   "options": "Fuel & Diesel\nVehicle Maintenance\nDriver Meals & Allowances\nParking, Tolls & Washing\nOther Operating Expenses",
+   "options": "Fuel & Diesel\nVehicle Maintenance\nTires, Oil & Lubricants\nDriver Meals & Allowances\nParking, Tolls & Washing\nGovernment & Municipal Fees\nOther Operating Expenses",
    "reqd": 1
   },
   {
@@ -33,8 +45,23 @@
    "fieldname": "amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Amount",
+   "label": "Net Amount",
    "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "tax_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Tax Amount (VAT)"
+  },
+  {
+   "default": "0",
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total with Tax",
+   "read_only": 1
   },
   {
    "fieldname": "receipt_reference",
@@ -43,13 +70,18 @@
    "label": "Receipt / Invoice Reference"
   },
   {
+   "fieldname": "receipt_image",
+   "fieldtype": "Attach",
+   "label": "Receipt Photo / Attachment"
+  },
+  {
    "fieldname": "remarks",
    "fieldtype": "Small Text",
    "label": "Remarks"
   }
  ],
  "istable": 1,
- "modified": "2026-10-22 15:00:00",
+ "modified": "2026-11-08 13:40:00",
  "modified_by": "Administrator",
  "module": "Gas Operations",
  "name": "Gas Daily Sheet Expense",

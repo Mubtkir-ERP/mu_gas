@@ -21,7 +21,8 @@ class GasDailySheet(Document):
 			total_sales += flt(s.amount)
 
 		for e in self.get("expenses", []):
-			total_expenses += flt(e.amount)
+			e.total_amount = flt(e.amount) + flt(e.tax_amount or 0)
+			total_expenses += flt(e.total_amount)
 
 		self.total_sales = total_sales
 		self.total_expenses = total_expenses
@@ -67,6 +68,11 @@ def approve_and_generate_entries(sheet_name):
 			})
 
 		si.remarks = _("Generated from Gas Daily Sheet: {0}").format(sheet.name)
+
+		# Set standard ERPNext defaults and taxes (Strictly system standard)
+		si.run_method("set_missing_values")
+		si.run_method("calculate_taxes_and_totals")
+
 		si.insert(ignore_permissions=True)
 		si.submit()
 		created_invoices.append(si.name)
@@ -81,20 +87,37 @@ def approve_and_generate_entries(sheet_name):
 		je.user_remark = _("Daily Expenses from Gas Sheet {0} - Driver {1}").format(sheet.name, sheet.driver)
 
 		for exp in sheet.expenses:
-			if flt(exp.amount) > 0:
-				# Debit Expense Account
+			tot = flt(exp.total_amount) or (flt(exp.amount) + flt(exp.tax_amount or 0))
+			if tot > 0:
+				# Debit Expense Account (Net amount)
 				je.append("accounts", {
 					"account": exp.expense_account,
 					"debit_in_account_currency": flt(exp.amount),
 					"user_remark": f"{exp.expense_type}: {exp.receipt_reference or ''} {exp.remarks or ''}".strip()
 				})
-				# Credit Driver Cash/Custody Account
+
+				# Debit Tax Account if tax_amount > 0 (Strictly system standard)
+				if flt(exp.tax_amount) > 0:
+					vat_account = frappe.db.get_value("Company", company, "default_tax_account") or \
+								  frappe.db.get_value("Account", {"company": company, "account_type": "Tax", "root_type": "Asset", "is_group": 0}, "name")
+					if vat_account:
+						je.append("accounts", {
+							"account": vat_account,
+							"debit_in_account_currency": flt(exp.tax_amount),
+							"user_remark": f"VAT on {exp.expense_type}: Ref {exp.receipt_reference or ''}".strip()
+						})
+					else:
+						# If no separate tax account found in company, add to expense account
+						je.accounts[-1].debit_in_account_currency += flt(exp.tax_amount)
+
+				# Credit Driver Cash/Custody Account (Total amount)
 				je.append("accounts", {
 					"account": sheet.cash_account,
-					"credit_in_account_currency": flt(exp.amount),
+					"credit_in_account_currency": tot,
 					"user_remark": f"Cash settlement: {sheet.driver}"
 				})
 
+		je.run_method("set_missing_values")
 		je.insert(ignore_permissions=True)
 		je.submit()
 		je_name = je.name

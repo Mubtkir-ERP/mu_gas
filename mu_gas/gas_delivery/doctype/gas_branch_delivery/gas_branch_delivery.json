@@ -9,6 +9,7 @@
   "naming_series",
   "customer",
   "customer_name",
+  "sales_order",
   "branch",
   "branch_title",
   "branch_phone",
@@ -59,13 +60,21 @@
    "read_only": 1
   },
   {
+   "fieldname": "sales_order",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Sales Order",
+   "options": "Sales Order"
+  },
+  {
    "fieldname": "branch",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Customer Branch / Address",
    "options": "Address",
-   "reqd": 1
+   "reqd": 0
   },
   {
    "fetch_from": "branch.address_title",

@@ -1,0 +1,90 @@
+{
+ "actions": [],
+ "creation": "2026-11-08 13:40:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "statement_date",
+  "ref_no",
+  "tank",
+  "qty",
+  "statement_amount",
+  "match_status",
+  "purchase_invoice",
+  "invoice_amount",
+  "difference"
+ ],
+ "fields": [
+  {
+   "fieldname": "statement_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Statement Date"
+  },
+  {
+   "fieldname": "ref_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Invoice / Order #"
+  },
+  {
+   "fieldname": "tank",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Tank / Station"
+  },
+  {
+   "default": "0",
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity (KG / L)"
+  },
+  {
+   "default": "0",
+   "fieldname": "statement_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Statement Amount"
+  },
+  {
+   "default": "Missing in ERPNext",
+   "fieldname": "match_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Match Status",
+   "options": "Matched\nMissing in ERPNext\nDiscrepancy"
+  },
+  {
+   "fieldname": "purchase_invoice",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Matched Purchase Invoice",
+   "options": "Purchase Invoice"
+  },
+  {
+   "default": "0",
+   "fieldname": "invoice_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Invoice Amount"
+  },
+  {
+   "default": "0",
+   "fieldname": "difference",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Difference"
+  }
+ ],
+ "istable": 1,
+ "modified": "2026-11-08 13:40:00",
+ "modified_by": "Administrator",
+ "module": "Gasco Import",
+ "name": "Gasco Statement Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC"
+}
+

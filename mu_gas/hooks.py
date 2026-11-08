@@ -14,3 +14,10 @@ required_apps = ["erpnext"]
 website_route_rules = [
 	{"from_route": "/gas-delivery", "to_route": "gas_delivery"}
 ]
+
+# Doctype JS injections
+doctype_js = {
+	"Customer": "public/js/customer_qr.js",
+	"Address": "public/js/address_qr.js"
+}
+
