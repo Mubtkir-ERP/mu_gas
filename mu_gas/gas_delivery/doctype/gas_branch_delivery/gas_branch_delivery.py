@@ -130,7 +130,11 @@ def send_delivery_otp(delivery_name):
 
 @frappe.whitelist()
 def verify_otp_and_confirm(delivery_name, input_otp):
-	"""Verifies 5-digit OTP and generates standard ERPNext Delivery Note automatically."""
+	"""
+	Verifies 5-digit OTP and generates:
+	1. Standard ERPNext Sales Order (طلب مبيعات)
+	2. Standard ERPNext Delivery Note (أمر تسليم) linked to the Sales Order and deducting stock from driver's warehouse.
+	"""
 	doc = frappe.get_doc("Gas Branch Delivery", delivery_name)
 	if doc.status == "Confirmed":
 		frappe.throw(_("This delivery has already been confirmed."))
@@ -138,21 +142,56 @@ def verify_otp_and_confirm(delivery_name, input_otp):
 	if str(doc.otp_code).strip() != str(input_otp).strip():
 		frappe.throw(_("Invalid OTP code. Please verify the code sent to the customer."))
 
-	# Create standard ERPNext Delivery Note
+	posting_date = doc.posting_date or frappe.utils.nowdate()
+	company = getattr(doc, "company", None) or frappe.defaults.get_user_default("Company") or frappe.db.get_single_value("Global Defaults", "default_company")
+
+	# Step 1: Create and Submit Sales Order (طلب مبيعات)
+	so = frappe.new_doc("Sales Order")
+	so.customer = doc.customer
+	if doc.branch:
+		so.customer_address = doc.branch
+		so.shipping_address_name = doc.branch
+	so.company = company
+	so.transaction_date = posting_date
+	so.delivery_date = posting_date
+	so.set_warehouse = doc.driver_warehouse
+	so.remarks = _("Gas QR Delivery - Customer {0} (Driver: {1})").format(
+		doc.customer_name or doc.customer, doc.driver or ""
+	)
+
+	for itm in doc.items:
+		so.append("items", {
+			"item_code": itm.item_code,
+			"qty": flt(itm.qty),
+			"rate": flt(itm.rate),
+			"warehouse": doc.driver_warehouse,
+			"uom": itm.uom or frappe.db.get_value("Item", itm.item_code, "stock_uom"),
+			"delivery_date": posting_date
+		})
+
+	# Set standard ERPNext taxes and totals
+	so.run_method("set_missing_values")
+	so.run_method("calculate_taxes_and_totals")
+	so.insert(ignore_permissions=True)
+	so.submit()
+
+	# Step 2: Create and Submit Delivery Note (أمر تسليم) against the created Sales Order
 	dn = frappe.new_doc("Delivery Note")
 	dn.customer = doc.customer
 	if doc.branch:
 		dn.customer_address = doc.branch
 		dn.shipping_address_name = doc.branch
+	dn.company = company
 	dn.set_warehouse = doc.driver_warehouse
-	dn.posting_date = doc.posting_date
-	dn.posting_time = doc.posting_time
-	if doc.sales_order:
-		dn.against_sales_order = doc.sales_order
+	dn.posting_date = posting_date
+	dn.posting_time = doc.posting_time or frappe.utils.now_datetime().strftime("%H:%M:%S")
+	dn.against_sales_order = so.name
+	dn.remarks = _("Gas Delivery via Driver {0} - Confirmed by Branch OTP (Against SO: {1})").format(
+		doc.driver or "", so.name
+	)
 
-	dn.remarks = _("Gas Delivery via Driver {0} - Confirmed by OTP").format(doc.driver or "")
-	if doc.sales_order:
-		dn.remarks += f" - Against Sales Order: {doc.sales_order}"
+	# Map so items to delivery note items
+	so_items_dict = {item.item_code: item.name for item in so.items}
 
 	for itm in doc.items:
 		item_row = {
@@ -160,30 +199,30 @@ def verify_otp_and_confirm(delivery_name, input_otp):
 			"qty": flt(itm.qty),
 			"uom": itm.uom or frappe.db.get_value("Item", itm.item_code, "stock_uom"),
 			"warehouse": doc.driver_warehouse,
-			"rate": flt(itm.rate) or 0
+			"rate": flt(itm.rate) or 0,
+			"against_sales_order": so.name,
+			"so_detail": so_items_dict.get(itm.item_code)
 		}
-		if itm.so_detail or doc.sales_order:
-			item_row["against_sales_order"] = doc.sales_order
-			if itm.so_detail:
-				item_row["so_detail"] = itm.so_detail
-
 		dn.append("items", item_row)
 
 	# Set standard ERPNext defaults and taxes (Strictly system standard)
 	dn.run_method("set_missing_values")
 	dn.run_method("calculate_taxes_and_totals")
-
 	dn.insert(ignore_permissions=True)
 	dn.submit()
 
 	doc.db_set({
 		"otp_verified": 1,
 		"status": "Confirmed",
+		"sales_order": so.name,
 		"delivery_note": dn.name
 	})
 
 	return {
 		"success": True,
+		"sales_order": so.name,
 		"delivery_note": dn.name,
-		"message": _("Delivery confirmed successfully! Delivery Note {0} created.").format(dn.name)
+		"message": _("Delivery confirmed successfully! Sales Order {0} and Delivery Note {1} created.").format(
+			so.name, dn.name
+		)
 	}
