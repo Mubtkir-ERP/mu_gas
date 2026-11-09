@@ -151,7 +151,7 @@
 
 	<script>
 		let activeDeliveryName = null;
-		const gasItems = {{ gas_items|tojson|safe }};
+		const gasItems = {{ gas_items_json|safe }};
 
 		document.addEventListener('DOMContentLoaded', () => {
 			addItemRow();
