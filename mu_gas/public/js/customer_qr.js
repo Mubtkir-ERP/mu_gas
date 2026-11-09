@@ -71,6 +71,7 @@ frappe.ui.form.on("Customer", {
 									address_line: b.address_line,
 									city: b.city,
 									delivery_url: b.delivery_url,
+									readable_url: b.readable_url,
 									qr_svg: b.qr_svg
 								}, __("رمز QR لفرع: {0}").replace("{0}", b.address_title));
 							});
@@ -109,9 +110,9 @@ function show_gas_qr_modal(data, title) {
 						</div>
 
 						<div style="font-size: 10px; color: #64748b; word-break: break-all; background: #f8fafc; padding: 6px; border-radius: 6px; border: 1px solid #f1f5f9;">
-							${data.delivery_url}
+							${data.readable_url || data.delivery_url}
 						</div>
-						<div style="font-size: 10px; color: #94a3b8; margin-top: 6px;">يمكنك توجيه كاميرا الجوال على الشاشة الآن لمسح الرمز وتجربته فوراً</div>
+						<div style="font-size: 10px; color: #94a3b8; margin-top: 6px;">امسح الكود بكاميرا الجوال ليفتح الرابط تلقائياً في المتصفح</div>
 					</div>
 				`
 			}
@@ -126,7 +127,7 @@ function show_gas_qr_modal(data, title) {
 						${data.address_title ? `<h3 style="margin: 4px 0; color: #10b981;">🏢 ${data.address_title}</h3>` : ''}
 						${data.address_line ? `<p style="margin: 4px 0; font-size: 12px; color: #64748b;">📍 ${data.address_line} ${data.city || ''}</p>` : ''}
 						<div style="margin: 12px auto; max-width: 200px;">${data.qr_svg}</div>
-						<div style="font-size: 10px; color: #64748b; word-break: break-all;">${data.delivery_url}</div>
+						<div style="font-size: 10px; color: #64748b; word-break: break-all;">${data.readable_url || data.delivery_url}</div>
 					</div>
 				</div>
 			`;

@@ -27,6 +27,11 @@ def get_context(context):
 				if len(parts) >= 3 and parts[2]:
 					branch = parts[2]
 
+	if customer:
+		customer = urllib.parse.unquote_plus(str(customer)).strip()
+	if branch:
+		branch = urllib.parse.unquote_plus(str(branch)).strip()
+
 	context.customer = customer
 	context.branch = branch
 

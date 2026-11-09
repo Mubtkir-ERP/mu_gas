@@ -39,9 +39,9 @@ frappe.ui.form.on("Address", {
 											</div>
 
 											<div style="font-size: 10px; color: #64748b; word-break: break-all; background: #f8fafc; padding: 6px; border-radius: 6px; border: 1px solid #f1f5f9;">
-												${b.delivery_url}
+												${b.readable_url || b.delivery_url}
 											</div>
-											<div style="font-size: 10px; color: #94a3b8; margin-top: 6px;">يمكنك توجيه كاميرا الجوال على الشاشة الآن لمسح الرمز وتجربته فوراً</div>
+											<div style="font-size: 10px; color: #94a3b8; margin-top: 6px;">امسح الكود بكاميرا الجوال ليفتح الرابط تلقائياً في المتصفح</div>
 										</div>
 									`
 								}
@@ -56,7 +56,7 @@ frappe.ui.form.on("Address", {
 											<h3 style="margin: 4px 0; color: #10b981;">🏢 ${b.address_title}</h3>
 											<p style="margin: 4px 0; font-size: 12px; color: #64748b;">📍 ${b.address_line || ''} ${b.city || ''} | 📞 ${b.phone || ''}</p>
 											<div style="margin: 12px auto; max-width: 200px;">${b.qr_svg}</div>
-											<div style="font-size: 10px; color: #64748b; word-break: break-all;">${b.delivery_url}</div>
+											<div style="font-size: 10px; color: #64748b; word-break: break-all;">${b.readable_url || b.delivery_url}</div>
 										</div>
 									</div>
 								`;

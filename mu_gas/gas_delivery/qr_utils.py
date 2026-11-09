@@ -8,13 +8,23 @@ import io
 import urllib.parse
 
 
+def build_delivery_url(site_url, customer, branch=None):
+	"""Constructs a standard, RFC 3986-compliant URL with proper encoding for QR scanning."""
+	base = (site_url or "").rstrip("/")
+	params = {"customer": customer or ""}
+	if branch:
+		params["branch"] = branch
+	encoded_query = urllib.parse.urlencode(params)
+	return f"{base}/gas-delivery?{encoded_query}"
+
+
 def generate_qr_image_or_svg(content):
 	"""Generates an SVG or data URI for the given text content."""
 	try:
 		import qrcode
 		from qrcode.image.svg import SvgPathImage
 		qr = qrcode.QRCode(
-			version=1,
+			version=None,
 			error_correction=qrcode.constants.ERROR_CORRECT_M,
 			box_size=10,
 			border=2,
@@ -28,7 +38,7 @@ def generate_qr_image_or_svg(content):
 		return stream.getvalue().decode("utf-8")
 	except Exception:
 		# Fallback if qrcode library is missing in environment
-		encoded = urllib.parse.quote(content)
+		encoded = urllib.parse.quote(content, safe="")
 		return f'<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data={encoded}" alt="QR Code" style="width:220px;height:220px;" />'
 
 
@@ -38,6 +48,7 @@ def get_customer_delivery_qr(customer=None, address=None):
 	Generates Gas Delivery QR Code for:
 	- Customer with no branches -> Single QR for customer
 	- Customer with branches / Address -> QR for specific branch
+	All URLs are URL-encoded so mobile cameras and scanners open the browser directly.
 	"""
 	site_url = frappe.utils.get_url()
 
@@ -53,7 +64,7 @@ def get_customer_delivery_qr(customer=None, address=None):
 			)
 
 		customer_name = frappe.db.get_value("Customer", linked_customer, "customer_name") if linked_customer else ""
-		delivery_url = f"{site_url}/gas-delivery?customer={linked_customer or ''}&branch={address}"
+		delivery_url = build_delivery_url(site_url, linked_customer, address)
 		qr_svg = generate_qr_image_or_svg(delivery_url)
 
 		return {
@@ -66,6 +77,7 @@ def get_customer_delivery_qr(customer=None, address=None):
 			"city": addr_doc.city or "",
 			"phone": addr_doc.phone or "",
 			"delivery_url": delivery_url,
+			"readable_url": f"{site_url}/gas-delivery?customer={linked_customer or ''}&branch={address}",
 			"qr_svg": qr_svg
 		}
 
@@ -83,7 +95,7 @@ def get_customer_delivery_qr(customer=None, address=None):
 
 		if not branches:
 			# Customer without branches: Generate single customer QR
-			delivery_url = f"{site_url}/gas-delivery?customer={customer}"
+			delivery_url = build_delivery_url(site_url, customer)
 			qr_svg = generate_qr_image_or_svg(delivery_url)
 			return {
 				"has_branches": False,
@@ -91,13 +103,14 @@ def get_customer_delivery_qr(customer=None, address=None):
 				"customer_name": customer_doc.customer_name or customer,
 				"mobile_no": customer_doc.mobile_no or "",
 				"delivery_url": delivery_url,
+				"readable_url": f"{site_url}/gas-delivery?customer={customer}",
 				"qr_svg": qr_svg
 			}
 		else:
 			# Customer has branches: list each branch with its QR code
 			branch_list = []
 			for b in branches:
-				b_url = f"{site_url}/gas-delivery?customer={customer}&branch={b.address}"
+				b_url = build_delivery_url(site_url, customer, b.address)
 				b_svg = generate_qr_image_or_svg(b_url)
 				branch_list.append({
 					"address": b.address,
@@ -106,6 +119,7 @@ def get_customer_delivery_qr(customer=None, address=None):
 					"city": b.city or "",
 					"phone": b.phone or "",
 					"delivery_url": b_url,
+					"readable_url": f"{site_url}/gas-delivery?customer={customer}&branch={b.address}",
 					"qr_svg": b_svg
 				})
 
@@ -117,4 +131,3 @@ def get_customer_delivery_qr(customer=None, address=None):
 			}
 
 	frappe.throw(_("Please provide Customer or Address."))
-
