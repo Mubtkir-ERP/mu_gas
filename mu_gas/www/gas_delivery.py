@@ -5,8 +5,16 @@ from frappe.utils import flt
 import urllib.parse
 import json
 
+no_cache = 1
+
 
 def get_context(context):
+	# Require authentication: Redirect Guest to login and preserve the destination URL
+	if frappe.session.user == "Guest":
+		req_path = getattr(frappe.local.request, "full_path", None) or "/gas-delivery"
+		frappe.local.flags.redirect_location = f"/login?redirect-to={urllib.parse.quote(req_path)}"
+		raise frappe.Redirect
+
 	customer = frappe.form_dict.get("customer")
 	branch = frappe.form_dict.get("branch")
 	raw_code = frappe.form_dict.get("code")
@@ -71,9 +79,14 @@ def get_context(context):
 		context.branch_phone = cust_phone
 		context.has_branch = False
 
-	# Fetch driver default warehouse
+	# Fetch driver user info and default warehouse
 	user = frappe.session.user
-	user_wh = frappe.db.get_value("POS Profile", {"user": user}, "warehouse") or ""
+	context.driver_user = user
+	context.driver_name = frappe.db.get_value("User", user, "full_name") or user
+
+	user_wh = frappe.db.get_value("POS Profile", {"user": user}, "warehouse")
+	if not user_wh:
+		user_wh = frappe.db.get_value("User Permission", {"user": user, "allow": "Warehouse"}, "for_value") or ""
 	context.default_warehouse = user_wh
 
 	# Gas items available for sale with standard rates
