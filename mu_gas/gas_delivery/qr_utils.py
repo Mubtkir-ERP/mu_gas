@@ -51,6 +51,11 @@ def get_customer_delivery_qr(customer=None, address=None):
 	All URLs are URL-encoded so mobile cameras and scanners open the browser directly.
 	"""
 	site_url = frappe.utils.get_url()
+	company_name = (
+		frappe.defaults.get_user_default("Company")
+		or frappe.db.get_single_value("Global Defaults", "default_company")
+		or ""
+	)
 
 	if address:
 		# Address-specific QR
@@ -69,6 +74,7 @@ def get_customer_delivery_qr(customer=None, address=None):
 
 		return {
 			"has_branches": True,
+			"company_name": company_name,
 			"customer": linked_customer,
 			"customer_name": customer_name,
 			"address": address,
@@ -99,6 +105,7 @@ def get_customer_delivery_qr(customer=None, address=None):
 			qr_svg = generate_qr_image_or_svg(delivery_url)
 			return {
 				"has_branches": False,
+				"company_name": company_name,
 				"customer": customer,
 				"customer_name": customer_doc.customer_name or customer,
 				"mobile_no": customer_doc.mobile_no or "",
@@ -125,6 +132,7 @@ def get_customer_delivery_qr(customer=None, address=None):
 
 			return {
 				"has_branches": True,
+				"company_name": company_name,
 				"customer": customer,
 				"customer_name": customer_doc.customer_name or customer,
 				"branches": branch_list
