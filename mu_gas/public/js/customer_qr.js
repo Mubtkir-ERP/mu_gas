@@ -1,85 +1,14 @@
 frappe.ui.form.on("Customer", {
 	refresh(frm) {
-		// Remove old buttons from previous scripts or customizations
+		// Remove legacy gas QR button from Customer form; unified button is provided by pos_next
 		frm.remove_custom_button("طباعة QR الفروع");
 		frm.remove_custom_button("طباعة QR الفروع", "الغاز");
+		frm.remove_custom_button("رمز QR لتسليم الغاز 🏷️");
 		frm.remove_custom_button("رمز QR لتسليم الغاز 🏷️", "الغاز");
 		setTimeout(() => {
 			frm.page.wrapper.find('button:contains("طباعة QR الفروع")').remove();
+			frm.page.wrapper.find('button:contains("رمز QR لتسليم الغاز")').remove();
 		}, 100);
-
-		if (!frm.is_new()) {
-			// Show new button directly on top bar (no dropdown menu)
-			frm.add_custom_button(__("رمز QR لتسليم الغاز 🏷️"), () => {
-				frappe.call({
-					method: "mu_gas.gas_delivery.qr_utils.get_customer_delivery_qr",
-					args: { customer: frm.doc.name },
-					freeze: true,
-					freeze_message: __("جاري تجهيز رمز الـ QR..."),
-					callback(r) {
-						if (!r.message) return;
-						let data = r.message;
-
-						if (!data.has_branches) {
-							// Single Customer without branches
-							show_gas_qr_modal(data, __("رمز QR لتسليم الغاز - {0}").replace("{0}", data.customer_name));
-						} else {
-							// Customer has multiple branches: list them with preview & direct test links
-							let rowsHtml = data.branches.map((b, idx) => `
-								<div class="p-3 mb-2 border rounded bg-white shadow-sm" style="direction: rtl;">
-									<div class="d-flex justify-content-between align-items-center mb-2">
-										<div>
-											<div class="font-weight-bold text-dark" style="font-size: 14px;">🏢 ${b.address_title}</div>
-											<small class="text-muted">📍 ${b.address_line || ''} ${b.city || ''} ${b.phone ? '| 📞 ' + b.phone : ''}</small>
-										</div>
-									</div>
-									<div class="d-flex gap-2" style="gap: 8px;">
-										<button type="button" class="btn btn-sm btn-primary preview-branch-btn" data-idx="${idx}">
-											👁️ عرض وتجربة الـ QR
-										</button>
-										<a href="${b.delivery_url}" target="_blank" class="btn btn-sm btn-outline-info">
-											🚀 فتح شاشة الطلب مباشرة 🔗
-										</a>
-									</div>
-								</div>
-							`).join("");
-
-							let d = new frappe.ui.Dialog({
-								title: __("رموز QR لفروع العميل: {0}").replace("{0}", data.customer_name),
-								fields: [
-									{
-										fieldtype: "HTML",
-										fieldname: "branches_list",
-										options: `
-											<div style="max-height: 420px; overflow-y: auto; direction: rtl;">
-												<p class="text-muted small mb-3">اختر الفرع لعرض الـ QR أو لفتح شاشة الطلب مباشرة وتجربتها:</p>
-												${rowsHtml}
-											</div>
-										`
-									}
-								]
-							});
-							d.show();
-
-							d.$wrapper.find('.preview-branch-btn').on('click', function() {
-								let idx = $(this).data('idx');
-								let b = data.branches[idx];
-								show_gas_qr_modal({
-									company_name: data.company_name,
-									customer: data.customer,
-									customer_name: data.customer_name,
-									address_title: b.address_title,
-									address_line: b.address_line,
-									city: b.city,
-									delivery_url: b.delivery_url,
-									qr_svg: b.qr_svg
-								}, __("رمز QR لفرع: {0}").replace("{0}", b.address_title));
-							});
-						}
-					}
-				});
-			}).addClass("btn-primary");
-		}
 	}
 });
 
